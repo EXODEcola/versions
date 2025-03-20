@@ -62,7 +62,7 @@ Chaque script a un fichier JSON avec les métadonnées suivantes :
 
 ## 🔗 **Liens utiles**
 - 📌 [Portal CFX](https://portal.cfx.re/)
-- 📜 [Discord]([https://www.json.org/json-fr.html](https://discord.gg/exode-developpement-fivem-869625490758070353))
+- 📜 [Discord](https://discord.gg/exode-developpement-fivem-869625490758070353)
 
 ---
 
