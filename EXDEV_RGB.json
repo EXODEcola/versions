@@ -1,0 +1,19 @@
+{
+  "product": "EXDEV RGB",
+  "channel": "stable",
+  "version": "1.4.2",
+  "release_name": "RAM reliability, real effects & online updater",
+  "min_windows": "10",
+  "arch": "x64",
+  "download_url": "",
+  "sha256": "30F612C037C12EE5672611BB1F392F70570F3304CD72FADC44835339A59A12D7",
+  "size": 3595126,
+  "release_notes": [
+    "Correction du contrôle des deux barrettes Corsair Vengeance RGB DDR5",
+    "Statique restauré sur le chemin RGB direct validé",
+    "Vague, Respiration, Spectre, Cycle et Flash exécutés par le moteur EXDEV RGB",
+    "Profils avec effet mémorisé et bouton Appliquer explicite",
+    "Canal de version GitHub avec contrôle SHA-256 avant installation",
+    "FAN LOCK maintenu : ventilateurs, PWM, pompe et NZXT restent exclus"
+  ]
+}
