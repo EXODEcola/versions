@@ -24,6 +24,48 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Repair transport chunk if needed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+
+          path = Path('.exdev-rgb-upload/part-05.b64')
+          data = path.read_bytes()
+          expected = '68d5e959ed4816e382802597336c24fc0d376b9d'
+
+          def git_blob_sha(payload: bytes) -> str:
+              header = f'blob {len(payload)}\0'.encode()
+              return hashlib.sha1(header + payload).hexdigest()
+
+          current = git_blob_sha(data)
+          if current == expected:
+              print('Transport chunk already exact.')
+              raise SystemExit(0)
+
+          if len(data) != 11999:
+              raise SystemExit(f'Unexpected transport chunk length: {len(data)}')
+
+          alphabet = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+          target = bytes.fromhex(expected)
+          header = b'blob 12000\0'
+
+          for pos in range(len(data) + 1):
+              prefix = data[:pos]
+              suffix = data[pos:]
+              for char in alphabet:
+                  candidate = prefix + bytes((char,)) + suffix
+                  if hashlib.sha1(header + candidate).digest() == target:
+                      path.write_bytes(candidate)
+                      print(f'Repaired transport chunk at position {pos} with {chr(char)!r}.')
+                      print(f'Git blob SHA: {git_blob_sha(candidate)}')
+                      raise SystemExit(0)
+
+          raise SystemExit('Unable to reconstruct the missing Base64 character.')
+          PY
+
       - name: Rebuild and verify EXDEV RGB 1.6.0
         shell: bash
         run: |
@@ -31,6 +73,7 @@ jobs:
           TARGET='EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip'
           mkdir -p "$(dirname "$TARGET")"
           cat .exdev-rgb-upload/part-*.b64 > /tmp/exdev-rgb-160.b64
+          test "$(wc -c < /tmp/exdev-rgb-160.b64)" -eq 92444
           base64 --decode /tmp/exdev-rgb-160.b64 > "$TARGET"
 
           test "$(wc -c < "$TARGET")" -eq 69331
