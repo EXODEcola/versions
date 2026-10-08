@@ -1,22 +1,18 @@
 {
   "product": "EXDEV RGB",
   "channel": "stable",
-  "version": "1.4.3",
-  "release_name": "Native FX Engine v2",
+  "version": "1.4.4",
+  "release_name": "GitHub Auto Update Ready",
   "min_windows": "10",
   "arch": "x64",
   "download_url": "",
-  "sha256": "63EEEC7F6F41E87F3D371D6C8BE765C69425620844C3A29BCA72EA35D014354A",
-  "size": 3609747,
+  "sha256": "E11FD9E9E5A4295E9DDECD479DD430FD6E5DAB293C7FE136A5C9536E37DC6C2C",
+  "size": 3612918,
   "release_notes": [
-    "Effets RAM déplacés vers les modes matériels natifs Corsair.",
-    "Effets ARGB calculés par LED dans le moteur EXDEV RGB.",
-    "Synchronisation revue pour réduire les décalages entre périphériques.",
-    "Le GPU AORUS reste un follower couleur globale.",
-    "FAN LOCK inchangé."
+    "Nouveau canal de mise à jour EXDEV_RGB/latest.json",
+    "Support des manifests versionnés et des assets GitHub Releases",
+    "Vérification SHA-256 obligatoire avant installation",
+    "Compatibilité conservée avec les anciens clients via ce fichier legacy"
   ],
-  "latest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/latest.json",
-  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.4.3/manifest.json",
-  "deprecated_schema": true,
-  "compatibility_note": "Fichier racine conservé pour les clients EXDEV RGB 1.4.2/1.4.3. Les nouveaux clients doivent lire EXDEV_RGB/latest.json."
+  "next_generation_update_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/latest.json"
 }

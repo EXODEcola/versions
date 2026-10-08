@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.4.4",
+  "channel": "stable",
+  "status": "current",
+  "release_name": "GitHub Auto Update Ready",
+  "published_at": "2026-10-08",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.4.4",
+    "asset": "EXDEV_RGB_v1.4.4_GITHUB_AUTO_UPDATE_READY.zip",
+    "available": false,
+    "url": "",
+    "sha256": "E11FD9E9E5A4295E9DDECD479DD430FD6E5DAB293C7FE136A5C9536E37DC6C2C",
+    "size": 3612918
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Nouveau point d'entrée permanent EXDEV_RGB/latest.json.",
+    "Résolution automatique du manifest de la dernière version stable.",
+    "Support direct des assets GitHub Releases avec URL construite automatiquement.",
+    "Vérification SHA-256 obligatoire avant extraction et installation.",
+    "Dépôt et hôtes GitHub strictement limités par l'updater.",
+    "Aucun GitHub Actions requis pour le canal de mise à jour."
+  ]
+}

@@ -2,8 +2,8 @@
   "schema": 1,
   "product": "EXDEV RGB",
   "channel": "stable",
-  "version": "1.4.3",
-  "manifest": "../releases/v1.4.3/manifest.json",
-  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.4.3/manifest.json",
+  "latest": "1.4.4",
+  "manifest": "../releases/v1.4.4/manifest.json",
+  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.4.4/manifest.json",
   "updated_at": "2026-10-08"
 }
