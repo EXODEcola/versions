@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.4.5",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "UI Polish & Automatic Startup Update",
+  "published_at": "2026-10-08",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.4.5",
+    "asset": "EXDEV_RGB_v1.4.5_FINAL_AUTO_UPDATE_BOOTSTRAP.zip",
+    "available": false,
+    "url": "",
+    "sha256": "E3B7C40B89C10D117FBCD4880920E69F841A097E60E52A88F55BEEAEF5022F6D",
+    "size": 3595706
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Polish complet de l interface EXDEV RGB.",
+    "Vérification GitHub automatique au lancement.",
+    "Overlay interne lors de la détection d une nouvelle version Stable.",
+    "Téléchargement et installation automatiques après un court compte à rebours.",
+    "Mode installateur /autoupdate avec progression sans clic supplémentaire.",
+    "SHA-256 obligatoire avant extraction et installation.",
+    "Les lancements Windows en arrière-plan ne forcent pas une UAC invisible.",
+    "FAN LOCK inchangé."
+  ]
+}
