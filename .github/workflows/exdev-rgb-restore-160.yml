@@ -1,0 +1,59 @@
+name: EXDEV RGB restore 1.6.0
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.exdev-rgb-upload/**'
+      - '.github/workflows/exdev-rgb-restore-160.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: exdev-rgb-restore-160
+  cancel-in-progress: true
+
+jobs:
+  restore:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rebuild and verify EXDEV RGB 1.6.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET='EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip'
+          mkdir -p "$(dirname "$TARGET")"
+          cat .exdev-rgb-upload/part-*.b64 > /tmp/exdev-rgb-160.b64
+          base64 --decode /tmp/exdev-rgb-160.b64 > "$TARGET"
+
+          test "$(wc -c < "$TARGET")" -eq 69331
+          echo '2e804f2e7be1455a0e416c9754baea3ea2a6e61ff9d76ceec578c2b0c2580b57  EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip' | sha256sum -c -
+          unzip -t "$TARGET"
+          test "$(unzip -Z1 "$TARGET" | wc -l)" -eq 26
+          unzip -Z1 "$TARGET" | grep -Fx 'EXDEV RGB/Lib/Patch/payload-manifest.json'
+          unzip -Z1 "$TARGET" | grep -Fx 'EXDEV RGB/Lib/Patch/apply-update.ps1'
+          unzip -Z1 "$TARGET" | grep -Fx 'EXDEV RGB/Lib/Patch/Payload/Source/main.js'
+          unzip -Z1 "$TARGET" | grep -Fx 'EXDEV RGB/Lib/Patch/Payload/Source/renderer/app.js'
+          unzip -Z1 "$TARGET" | grep -Fx 'EXDEV RGB/Lib/Patch/Payload/Source/renderer/style.css'
+
+      - name: Publish verified payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET='EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$TARGET"
+          if git diff --cached --quiet; then
+            echo 'Verified payload already matches repository.'
+            exit 0
+          fi
+          git commit -m 'fix(exdev-rgb): publish verified 1.6.0 update payload'
+          git push origin HEAD:main
