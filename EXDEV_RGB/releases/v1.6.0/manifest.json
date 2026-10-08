@@ -4,7 +4,7 @@
   "version": "1.6.0",
   "channel": "stable",
   "status": "prepared",
-  "release_name": "Premium Product UI",
+  "release_name": "Premium Product UI + Updater Hardening",
   "published_at": "2026-10-08",
   "mandatory": false,
   "windows": {
@@ -12,24 +12,31 @@
     "architecture": "x64"
   },
   "download": {
-    "provider": "github-release",
+    "provider": "github-raw",
     "repository": "EXODEcola/versions",
-    "tag": "v1.6.0",
-    "asset": "EXDEV_RGB_v1.6.0_PREMIUM_PRODUCT_UI.zip",
+    "asset": "EXDEV_RGB_v1.6.0_UPDATE.zip",
     "available": false,
     "url": "",
-    "sha256": "A4D9D2F9F531890FDF5F4D1F48B9852582FBE0F43A613138A5351891B320B235",
-    "size": 6036800
+    "sha256": "CCF80A2CC110D8A89C8A8765069B4FC08A810A81434E2378D4917C897C15E2A4",
+    "size": 118012
+  },
+  "full_package": {
+    "asset": "EXDEV_RGB_v1.6.0_STABLE.zip",
+    "sha256": "BA168E748472521CBFF7E3ECF396A0A4269D6D2C0ECB65D729E6F7203F20EC40",
+    "size": 3494762
   },
   "changelog": "changelog.md",
   "checksum_file": "sha256.txt",
   "release_notes": [
-    "Nouvelle interface Premium Product UI inspirée des logiciels RGB desktop professionnels.",
-    "Nouveau Dashboard avec hero EXDEV, hiérarchie renforcée et cartes appareils enrichies.",
-    "Page Appareils modernisée avec visuels matériels vectoriels et fiche détail plus claire.",
-    "Sélecteur de profil et sous-menu entièrement retravaillés avec chevrons vectoriels.",
-    "Boutons, formes, bordures, espacements, hover et états actifs harmonisés.",
-    "Updater GitHub automatique et vérification SHA-256 conservés.",
+    "Premium Product UI 1.6.0.",
+    "Correction de la comparaison sémantique des versions Stable.",
+    "État EN AVANCE lorsque la version locale est plus récente que le canal Stable.",
+    "Aucune rétrogradation automatique vers une version plus ancienne.",
+    "Vérification GitHub single-flight avec cache court pour éviter les requêtes concurrentes.",
+    "Suppression des notifications de mise à jour dupliquées.",
+    "Bouton de vérification verrouillé pendant une requête et retour d'état explicite.",
+    "Mise à jour automatique au lancement conservée uniquement lorsqu'une version réellement plus récente existe.",
+    "SHA-256 obligatoire avant installation.",
     "FAN LOCK inchangé."
   ]
 }
