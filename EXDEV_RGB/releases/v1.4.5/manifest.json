@@ -3,7 +3,7 @@
   "product": "EXDEV RGB",
   "version": "1.4.5",
   "channel": "stable",
-  "status": "prepared",
+  "status": "current",
   "release_name": "UI Polish & Automatic Startup Update",
   "published_at": "2026-10-08",
   "mandatory": false,
