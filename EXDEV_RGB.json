@@ -1,19 +1,22 @@
 {
   "product": "EXDEV RGB",
   "channel": "stable",
-  "version": "1.4.2",
-  "release_name": "RAM reliability, real effects & online updater",
+  "version": "1.4.3",
+  "release_name": "Native FX Engine v2",
   "min_windows": "10",
   "arch": "x64",
   "download_url": "",
-  "sha256": "30F612C037C12EE5672611BB1F392F70570F3304CD72FADC44835339A59A12D7",
-  "size": 3595126,
+  "sha256": "63EEEC7F6F41E87F3D371D6C8BE765C69425620844C3A29BCA72EA35D014354A",
+  "size": 3609747,
   "release_notes": [
-    "Correction du contrôle des deux barrettes Corsair Vengeance RGB DDR5",
-    "Statique restauré sur le chemin RGB direct validé",
-    "Vague, Respiration, Spectre, Cycle et Flash exécutés par le moteur EXDEV RGB",
-    "Profils avec effet mémorisé et bouton Appliquer explicite",
-    "Canal de version GitHub avec contrôle SHA-256 avant installation",
-    "FAN LOCK maintenu : ventilateurs, PWM, pompe et NZXT restent exclus"
-  ]
+    "Effets RAM déplacés vers les modes matériels natifs Corsair.",
+    "Effets ARGB calculés par LED dans le moteur EXDEV RGB.",
+    "Synchronisation revue pour réduire les décalages entre périphériques.",
+    "Le GPU AORUS reste un follower couleur globale.",
+    "FAN LOCK inchangé."
+  ],
+  "latest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/latest.json",
+  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.4.3/manifest.json",
+  "deprecated_schema": true,
+  "compatibility_note": "Fichier racine conservé pour les clients EXDEV RGB 1.4.2/1.4.3. Les nouveaux clients doivent lire EXDEV_RGB/latest.json."
 }

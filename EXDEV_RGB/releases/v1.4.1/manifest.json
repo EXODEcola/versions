@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.4.1",
+  "channel": "stable",
+  "status": "superseded",
+  "release_name": "PRO UI / Windows Hardened",
+  "published_at": "2026-10-07",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "url": "",
+    "asset": "EXDEV_RGB_v1.4.1_PRO_UI_WINDOWS_HARDENED.zip",
+    "sha256": "E43053365D6491E2E020918BBB27B94E4623B7ED10186703B604AD1B0C2C95C4",
+    "size": 3570124
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Durcissement Electron/Windows.",
+    "Profils actifs, thème sombre/clair et bibliothèque d'icônes améliorés.",
+    "Corrections visuelles et suppression des fenêtres PowerShell visibles.",
+    "Vérification SHA-256 avant installation."
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "latest_stable": "1.4.3",
+  "latest_beta": null,
+  "versions": [
+    {
+      "version": "1.4.3",
+      "channel": "stable",
+      "status": "current",
+      "published_at": "2026-10-08",
+      "manifest": "releases/v1.4.3/manifest.json",
+      "sha256": "63EEEC7F6F41E87F3D371D6C8BE765C69425620844C3A29BCA72EA35D014354A"
+    },
+    {
+      "version": "1.4.2",
+      "channel": "stable",
+      "status": "superseded",
+      "published_at": "2026-10-07",
+      "manifest": "releases/v1.4.2/manifest.json",
+      "sha256": "30F612C037C12EE5672611BB1F392F70570F3304CD72FADC44835339A59A12D7"
+    },
+    {
+      "version": "1.4.1",
+      "channel": "stable",
+      "status": "superseded",
+      "published_at": "2026-10-07",
+      "manifest": "releases/v1.4.1/manifest.json",
+      "sha256": "E43053365D6491E2E020918BBB27B94E4623B7ED10186703B604AD1B0C2C95C4"
+    },
+    {
+      "version": "1.4.0",
+      "channel": "stable",
+      "status": "superseded",
+      "published_at": "2026-10-07",
+      "manifest": "releases/v1.4.0/manifest.json",
+      "sha256": "D40695ED3BAE8579C6609915B7ACC6CE4D87DCA3CD2A0E5745D2437A85966057"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.4.3",
+  "channel": "stable",
+  "status": "current",
+  "release_name": "Native FX Engine v2",
+  "published_at": "2026-10-08",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "url": "",
+    "asset": "EXDEV_RGB_v1.4.3_NATIVE_FX_V2.zip",
+    "sha256": "63EEEC7F6F41E87F3D371D6C8BE765C69425620844C3A29BCA72EA35D014354A",
+    "size": 3609747
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Effets RAM déplacés vers les modes matériels natifs Corsair.",
+    "Effets ARGB calculés par LED dans le moteur EXDEV RGB.",
+    "Synchronisation revue pour réduire les décalages entre périphériques.",
+    "Le GPU AORUS reste un follower couleur globale.",
+    "FAN LOCK inchangé."
+  ]
+}

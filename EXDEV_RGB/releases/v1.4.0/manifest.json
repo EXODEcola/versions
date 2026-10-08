@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.4.0",
+  "channel": "stable",
+  "status": "superseded",
+  "release_name": "PRO UI",
+  "published_at": "2026-10-07",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "url": "",
+    "asset": "EXDEV_RGB_v1.4.0_PRO_UI.zip",
+    "sha256": "D40695ED3BAE8579C6609915B7ACC6CE4D87DCA3CD2A0E5745D2437A85966057",
+    "size": 3385347
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Nouvelle interface professionnelle EXDEV RGB.",
+    "Nouveau tableau de bord, pages Appareils, Éclairage, Profils, Surveillance et Paramètres.",
+    "Conservation du moteur matériel existant et du FAN LOCK."
+  ]
+}
