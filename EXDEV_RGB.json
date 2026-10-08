@@ -1,18 +1,19 @@
 {
   "product": "EXDEV RGB",
   "channel": "stable",
-  "version": "1.4.4",
-  "release_name": "GitHub Auto Update Ready",
+  "version": "1.6.0",
+  "release_name": "Premium Product UI + Updater Hardening",
   "min_windows": "10",
   "arch": "x64",
-  "download_url": "",
-  "sha256": "E11FD9E9E5A4295E9DDECD479DD430FD6E5DAB293C7FE136A5C9536E37DC6C2C",
-  "size": 3612918,
+  "download_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
+  "sha256": "2E804F2E7BE1455A0E416C9754BAEA3EA2A6E61FF9D76CEEC578C2B0C2580B57",
+  "size": 69331,
   "release_notes": [
-    "Nouveau canal de mise à jour EXDEV_RGB/latest.json",
-    "Support des manifests versionnés et des assets GitHub Releases",
-    "Vérification SHA-256 obligatoire avant installation",
-    "Compatibilité conservée avec les anciens clients via ce fichier legacy"
+    "Premium Product UI 1.6.0",
+    "Updater GitHub durci",
+    "Comparaison sémantique des versions",
+    "Déduplication des notifications",
+    "Mise à jour automatique au lancement"
   ],
   "next_generation_update_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/latest.json"
 }

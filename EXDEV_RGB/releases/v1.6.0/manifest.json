@@ -3,7 +3,7 @@
   "product": "EXDEV RGB",
   "version": "1.6.0",
   "channel": "stable",
-  "status": "prepared",
+  "status": "current",
   "release_name": "Premium Product UI + Updater Hardening",
   "published_at": "2026-10-08",
   "mandatory": false,
@@ -15,13 +15,15 @@
     "provider": "github-raw",
     "repository": "EXODEcola/versions",
     "asset": "EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
-    "available": false,
-    "url": "",
+    "available": true,
+    "url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
     "sha256": "2E804F2E7BE1455A0E416C9754BAEA3EA2A6E61FF9D76CEEC578C2B0C2580B57",
-    "size": 69333
+    "size": 69331
   },
   "full_package": {
     "asset": "EXDEV_RGB_v1.6.0_STABLE.zip",
+    "available": false,
+    "url": "",
     "sha256": "BA168E748472521CBFF7E3ECF396A0A4269D6D2C0ECB65D729E6F7203F20EC40",
     "size": 3494762
   },
@@ -35,7 +37,7 @@
     "Vérification GitHub single-flight avec cache court pour éviter les requêtes concurrentes.",
     "Suppression des notifications de mise à jour dupliquées.",
     "Bouton de vérification verrouillé pendant une requête et retour d'état explicite.",
-    "Mise à jour automatique au lancement conservée uniquement lorsqu'une version réellement plus récente existe.",
+    "Mise à jour automatique au lancement uniquement lorsqu'une version réellement plus récente existe.",
     "SHA-256 obligatoire avant installation.",
     "FAN LOCK inchangé."
   ]
