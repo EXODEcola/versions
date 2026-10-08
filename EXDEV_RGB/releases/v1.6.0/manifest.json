@@ -14,11 +14,11 @@
   "download": {
     "provider": "github-raw",
     "repository": "EXODEcola/versions",
-    "asset": "EXDEV_RGB_v1.6.0_UPDATE.zip",
+    "asset": "EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
     "available": false,
     "url": "",
-    "sha256": "CCF80A2CC110D8A89C8A8765069B4FC08A810A81434E2378D4917C897C15E2A4",
-    "size": 118012
+    "sha256": "2E804F2E7BE1455A0E416C9754BAEA3EA2A6E61FF9D76CEEC578C2B0C2580B57",
+    "size": 69333
   },
   "full_package": {
     "asset": "EXDEV_RGB_v1.6.0_STABLE.zip",
