@@ -1,1 +1,0 @@
-Trigger verified EXDEV RGB v1.6.0 restore through GitHub Contents API.
