@@ -5,8 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '.exdev-rgb-upload/**'
-      - '.github/workflows/exdev-rgb-restore-160.yml'
+      - '.exdev-rgb-upload/trigger-final.txt'
 
 permissions:
   contents: write
@@ -24,58 +23,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Repair transport chunk if needed
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          import hashlib
-
-          path = Path('.exdev-rgb-upload/part-05.b64')
-          data = path.read_bytes()
-          expected = '68d5e959ed4816e382802597336c24fc0d376b9d'
-
-          def git_blob_sha(payload: bytes) -> str:
-              header = f'blob {len(payload)}\0'.encode()
-              return hashlib.sha1(header + payload).hexdigest()
-
-          current = git_blob_sha(data)
-          if current == expected:
-              print('Transport chunk already exact.')
-              raise SystemExit(0)
-
-          if len(data) != 11999:
-              raise SystemExit(f'Unexpected transport chunk length: {len(data)}')
-
-          alphabet = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-          target = bytes.fromhex(expected)
-          header = b'blob 12000\0'
-
-          for pos in range(len(data) + 1):
-              prefix = data[:pos]
-              suffix = data[pos:]
-              for char in alphabet:
-                  candidate = prefix + bytes((char,)) + suffix
-                  if hashlib.sha1(header + candidate).digest() == target:
-                      path.write_bytes(candidate)
-                      print(f'Repaired transport chunk at position {pos} with {chr(char)!r}.')
-                      print(f'Git blob SHA: {git_blob_sha(candidate)}')
-                      raise SystemExit(0)
-
-          raise SystemExit('Unable to reconstruct the missing Base64 character.')
-          PY
-
       - name: Rebuild and verify EXDEV RGB 1.6.0
         shell: bash
         run: |
           set -euo pipefail
           TARGET='EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip'
           mkdir -p "$(dirname "$TARGET")"
-          cat .exdev-rgb-upload/part-*.b64 > /tmp/exdev-rgb-160.b64
+          cat \
+            .exdev-rgb-upload/part-00.b64 \
+            .exdev-rgb-upload/part-01.b64 \
+            .exdev-rgb-upload/part-02.b64 \
+            .exdev-rgb-upload/part-03.b64 \
+            .exdev-rgb-upload/part-04.b64 \
+            .exdev-rgb-upload/part-05-00.b64 \
+            .exdev-rgb-upload/part-05-01.b64 \
+            .exdev-rgb-upload/part-05-02.b64 \
+            .exdev-rgb-upload/part-05-03.b64 \
+            .exdev-rgb-upload/part-05-04.b64 \
+            .exdev-rgb-upload/part-05-05.b64 \
+            .exdev-rgb-upload/part-05-06.b64 \
+            .exdev-rgb-upload/part-05-07.b64 \
+            .exdev-rgb-upload/part-05-08.b64 \
+            .exdev-rgb-upload/part-05-09-0.b64 \
+            .exdev-rgb-upload/part-05-09-1.b64 \
+            .exdev-rgb-upload/part-05-09-2.b64 \
+            .exdev-rgb-upload/part-05-09-3.b64 \
+            .exdev-rgb-upload/part-05-10.b64 \
+            .exdev-rgb-upload/part-05-11.b64 \
+            .exdev-rgb-upload/part-06.b64 \
+            .exdev-rgb-upload/part-07.b64 \
+            .exdev-rgb-upload/part-08.b64 \
+            .exdev-rgb-upload/part-09.b64 \
+            > /tmp/exdev-rgb-160.b64
+
           test "$(wc -c < /tmp/exdev-rgb-160.b64)" -eq 92444
           base64 --decode /tmp/exdev-rgb-160.b64 > "$TARGET"
-
           test "$(wc -c < "$TARGET")" -eq 69331
           echo '2e804f2e7be1455a0e416c9754baea3ea2a6e61ff9d76ceec578c2b0c2580b57  EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip' | sha256sum -c -
           unzip -t "$TARGET"
@@ -94,9 +76,6 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add "$TARGET"
-          if git diff --cached --quiet; then
-            echo 'Verified payload already matches repository.'
-            exit 0
-          fi
+          git diff --cached --quiet && { echo 'Verified payload already matches repository.'; exit 0; }
           git commit -m 'fix(exdev-rgb): publish verified 1.6.0 update payload'
           git push origin HEAD:main
