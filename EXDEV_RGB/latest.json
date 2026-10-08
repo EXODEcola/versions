@@ -2,10 +2,10 @@
   "schema": 1,
   "product": "EXDEV RGB",
   "channel": "stable",
-  "latest": "1.6.0",
+  "latest": "1.4.5",
   "minimum_supported": "1.4.0",
-  "manifest": "releases/v1.6.0/manifest.json",
-  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/manifest.json",
+  "manifest": "releases/v1.4.5/manifest.json",
+  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.4.5/manifest.json",
   "index_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/index.json",
   "updated_at": "2026-10-08"
 }
