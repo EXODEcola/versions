@@ -1,0 +1,132 @@
+name: EXDEV RGB publish RAM hotfix
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.exdev-rgb-hotfix/trigger.txt'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: exdev-rgb-publish-160-ram-hotfix
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse PowerShell hotfix scripts
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          foreach($file in @('.exdev-rgb-hotfix/apply-update.ps1','.exdev-rgb-hotfix/ensure-hardware.ps1')) {
+            $tokens=$null; $errors=$null
+            [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $file),[ref]$tokens,[ref]$errors) | Out-Null
+            if($errors.Count -gt 0) { $errors | Format-List | Out-String | Write-Error; exit 1 }
+          }
+
+      - name: Rebuild verified 1.6.0 RAM hotfix payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET='EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip'
+          WORK="$RUNNER_TEMP/exdev-rgb-160-hotfix"
+          rm -rf "$WORK"
+          mkdir -p "$WORK"
+          unzip -q "$TARGET" -d "$WORK"
+
+          PATCH="$WORK/EXDEV RGB/Lib/Patch"
+          cp '.exdev-rgb-hotfix/apply-update.ps1' "$PATCH/apply-update.ps1"
+          mkdir -p "$PATCH/Payload/Installer"
+          cp '.exdev-rgb-hotfix/ensure-hardware.ps1' "$PATCH/Payload/Installer/ensure-hardware.ps1"
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          patch=Path(__import__('os').environ['RUNNER_TEMP'])/'exdev-rgb-160-hotfix'/'EXDEV RGB'/'Lib'/'Patch'
+          files={}
+          for p in sorted((patch/'Payload').rglob('*')):
+              if p.is_file():
+                  files[p.relative_to(patch).as_posix()]=hashlib.sha256(p.read_bytes()).hexdigest().upper()
+          manifest={'version':'1.6.0','hotfix':'ram-link-recovery','files':files}
+          (patch/'payload-manifest.json').write_text(json.dumps(manifest,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          assert 'Payload/Installer/ensure-hardware.ps1' in files
+          assert len(files) >= 14
+          PY
+
+          rm -f "$TARGET"
+          (cd "$WORK" && zip -qr -9 "$GITHUB_WORKSPACE/$TARGET" 'EXDEV RGB')
+          unzip -t "$TARGET"
+          test "$(unzip -Z1 "$TARGET" | grep -c '^EXDEV RGB/Lib/Patch/apply-update.ps1$')" -eq 1
+          test "$(unzip -Z1 "$TARGET" | grep -c '^EXDEV RGB/Lib/Patch/Payload/Installer/ensure-hardware.ps1$')" -eq 1
+          test "$(unzip -Z1 "$TARGET" | grep -c '^EXDEV RGB/Lib/Patch/payload-manifest.json$')" -eq 1
+
+          SHA=$(sha256sum "$TARGET" | awk '{print toupper($1)}')
+          SIZE=$(wc -c < "$TARGET" | tr -d ' ')
+          echo "EXDEV_RGB_SHA=$SHA" >> "$GITHUB_ENV"
+          echo "EXDEV_RGB_SIZE=$SIZE" >> "$GITHUB_ENV"
+          echo "Verified payload: $SIZE bytes / $SHA"
+
+      - name: Publish 1.6.0 stable metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, os
+          root=Path('.')
+          sha=os.environ['EXDEV_RGB_SHA']; size=int(os.environ['EXDEV_RGB_SIZE'])
+          raw='https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip'
+          manifest_path=root/'EXDEV_RGB/releases/v1.6.0/manifest.json'
+          m=json.loads(manifest_path.read_text(encoding='utf-8'))
+          m['version']='1.6.0'; m['channel']='stable'; m['status']='current'; m['release_name']='Premium Product UI + RAM Link Recovery Hotfix'
+          m.setdefault('download',{}).update({'provider':'github-raw','repository':'EXODEcola/versions','asset':'EXDEV_RGB_v1.6.0_UPDATE_MIN.zip','available':True,'url':raw,'sha256':sha,'size':size})
+          m['release_notes']=[
+            'Hotfix liaison RAM Corsair depuis 1.4.5.',
+            'Réparation et redémarrage contrôlé du EXDEV Native Engine.',
+            'Validation réelle PawnIO/SMBus avant de déclarer la RAM pilotable.',
+            'Fallback Native Engine puis bridge direct pour la disponibilité RAM.',
+            'Rollback et relance automatique de l ancienne application si la mise à jour échoue.',
+            'Premium Product UI 1.6.0 conservée.'
+          ]
+          manifest_path.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+          latest={'schema':1,'product':'EXDEV RGB','channel':'stable','latest':'1.6.0','minimum_supported':'1.4.0','manifest':'releases/v1.6.0/manifest.json','manifest_url':'https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/manifest.json','index_url':'https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/index.json','updated_at':'2026-10-09'}
+          (root/'EXDEV_RGB/latest.json').write_text(json.dumps(latest,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          stable={'schema':1,'product':'EXDEV RGB','channel':'stable','latest':'1.6.0','manifest':'../releases/v1.6.0/manifest.json','manifest_url':'https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/manifest.json','updated_at':'2026-10-09'}
+          (root/'EXDEV_RGB/channels/stable.json').write_text(json.dumps(stable,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+          idx_path=root/'EXDEV_RGB/index.json'; idx=json.loads(idx_path.read_text(encoding='utf-8'))
+          found=False
+          for v in idx.get('versions',[]):
+              if v.get('version')=='1.6.0': v.update({'channel':'stable','status':'current','manifest':'releases/v1.6.0/manifest.json'}); found=True
+              elif v.get('channel')=='stable': v['status']='superseded'
+          if not found: idx.setdefault('versions',[]).insert(0,{'version':'1.6.0','channel':'stable','status':'current','manifest':'releases/v1.6.0/manifest.json'})
+          idx_path.write_text(json.dumps(idx,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+          compat_path=root/'EXDEV_RGB.json'; compat=json.loads(compat_path.read_text(encoding='utf-8'))
+          compat.update({'version':'1.6.0','channel':'stable','release_name':'Premium Product UI + RAM Link Recovery Hotfix','download_url':raw,'sha256':sha,'size':size,'release_notes':['RAM Corsair link recovery','Native Engine repair','Rollback/relaunch on update failure','Premium Product UI 1.6.0']})
+          compat_path.write_text(json.dumps(compat,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+          changelog=root/'EXDEV_RGB/releases/v1.6.0/changelog.md'
+          changelog.write_text('# EXDEV RGB 1.6.0 — RAM Link Recovery Hotfix\n\n- Restaure la liaison de contrôle RGB des RAM Corsair affectée depuis 1.4.5.\n- Répare et redémarre EXDEV Native Engine si la tâche existe mais n est plus joignable.\n- Valide réellement PawnIO + SmbusPIIX4 + Native Engine avant de déclarer le contrôle RAM prêt.\n- Ajoute un fallback du moteur local vers le bridge direct.\n- En cas d échec de mise à jour, l ancien EXDEV RGB est automatiquement relancé et restauré si nécessaire.\n- Conserve l interface Premium Product UI 1.6.0.\n',encoding='utf-8')
+          PY
+
+      - name: Commit verified hotfix and clean staging
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm -r .exdev-rgb-hotfix .github/workflows/exdev-rgb-publish-160-hotfix.yml
+          git add EXDEV_RGB.json EXDEV_RGB/latest.json EXDEV_RGB/channels/stable.json EXDEV_RGB/index.json EXDEV_RGB/releases/v1.6.0/manifest.json EXDEV_RGB/releases/v1.6.0/changelog.md EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip
+          git commit -m 'fix(exdev-rgb): publish 1.6.0 RAM link recovery hotfix'
+          git push origin HEAD:main
