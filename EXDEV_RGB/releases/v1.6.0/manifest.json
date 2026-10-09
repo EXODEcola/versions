@@ -3,7 +3,7 @@
   "product": "EXDEV RGB",
   "version": "1.6.0",
   "channel": "stable",
-  "status": "current",
+  "status": "paused",
   "release_name": "Premium Product UI + Updater Hardening",
   "published_at": "2026-10-08",
   "mandatory": false,
@@ -15,8 +15,8 @@
     "provider": "github-raw",
     "repository": "EXODEcola/versions",
     "asset": "EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
-    "available": true,
-    "url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
+    "available": false,
+    "url": "",
     "sha256": "2E804F2E7BE1455A0E416C9754BAEA3EA2A6E61FF9D76CEEC578C2B0C2580B57",
     "size": 69331
   },
@@ -30,15 +30,7 @@
   "changelog": "changelog.md",
   "checksum_file": "sha256.txt",
   "release_notes": [
-    "Premium Product UI 1.6.0.",
-    "Correction de la comparaison sémantique des versions Stable.",
-    "État EN AVANCE lorsque la version locale est plus récente que le canal Stable.",
-    "Aucune rétrogradation automatique vers une version plus ancienne.",
-    "Vérification GitHub single-flight avec cache court pour éviter les requêtes concurrentes.",
-    "Suppression des notifications de mise à jour dupliquées.",
-    "Bouton de vérification verrouillé pendant une requête et retour d'état explicite.",
-    "Mise à jour automatique au lancement uniquement lorsqu'une version réellement plus récente existe.",
-    "SHA-256 obligatoire avant installation.",
-    "FAN LOCK inchangé."
+    "Version temporairement suspendue du canal Stable.",
+    "Correctif en préparation pour le bootstrap de mise à jour et la réparation PawnIO/RAM."
   ]
 }
