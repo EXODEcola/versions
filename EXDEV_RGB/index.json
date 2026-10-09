@@ -2,9 +2,9 @@
   "schema": 1,
   "product": "EXDEV RGB",
   "versions": [
-    {"version":"1.6.0","channel":"stable","status":"current","manifest":"releases/v1.6.0/manifest.json"},
-    {"version":"1.4.5","channel":"stable","status":"superseded","manifest":"releases/v1.4.5/manifest.json"},
-    {"version":"1.4.4","channel":"stable","status":"superseded","manifest":"releases/v1.4.4/manifest.json"},
+    {"version":"1.6.0","channel":"stable","status":"paused","manifest":"releases/v1.6.0/manifest.json"},
+    {"version":"1.4.5","channel":"stable","status":"paused","manifest":"releases/v1.4.5/manifest.json"},
+    {"version":"1.4.4","channel":"stable","status":"current","manifest":"releases/v1.4.4/manifest.json"},
     {"version":"1.4.3","channel":"stable","status":"superseded","manifest":"releases/v1.4.3/manifest.json"},
     {"version":"1.4.2","channel":"stable","status":"superseded","manifest":"releases/v1.4.2/manifest.json"},
     {"version":"1.4.1","channel":"stable","status":"superseded","manifest":"releases/v1.4.1/manifest.json"},
