@@ -1,23 +1,8 @@
-# EXDEV RGB 1.6.0 — Premium Product UI + Updater Hardening
+# EXDEV RGB 1.6.0 — RAM Link Recovery Hotfix
 
-## Interface
-- Nouvelle interface Premium Product UI.
-- Dashboard, page Appareils et sélecteur de profils retravaillés.
-- Boutons, chevrons, bordures, espacements, hover et états actifs harmonisés.
-
-## Mise à jour GitHub
-- Comparaison sémantique corrigée entre la version locale et le canal Stable.
-- `local < latest` : mise à jour disponible.
-- `local == latest` : logiciel à jour.
-- `local > latest` : état **EN AVANCE**, sans rétrogradation automatique.
-- Vérification single-flight : une seule requête réseau active à la fois.
-- Cache court de 15 secondes pour éviter le spam GitHub.
-- Notifications identiques dédupliquées et limitées.
-- Vérification forcée disponible depuis le bouton manuel.
-- Mise à jour automatique au lancement uniquement si le canal Stable annonce réellement une version plus récente.
-- Vérification SHA-256 obligatoire avant installation.
-
-## Matériel / sécurité
-- Native Lighting Engine conservé.
-- Corsair DDR5, ARGB Gigabyte et AORUS RX 9070 XT conservés.
-- FAN LOCK inchangé : aucun contrôle ventilateur, PWM ou pompe ajouté.
+- Restaure la liaison de contrôle RGB des RAM Corsair affectée depuis 1.4.5.
+- Répare et redémarre EXDEV Native Engine si la tâche existe mais n est plus joignable.
+- Valide réellement PawnIO + SmbusPIIX4 + Native Engine avant de déclarer le contrôle RAM prêt.
+- Ajoute un fallback du moteur local vers le bridge direct.
+- En cas d échec de mise à jour, l ancien EXDEV RGB est automatiquement relancé et restauré si nécessaire.
+- Conserve l interface Premium Product UI 1.6.0.

@@ -1,16 +1,18 @@
 {
   "product": "EXDEV RGB",
   "channel": "stable",
-  "version": "1.4.4",
-  "release_name": "GitHub Auto Update Ready",
+  "version": "1.6.0",
+  "release_name": "Premium Product UI + RAM Link Recovery Hotfix",
   "min_windows": "10",
   "arch": "x64",
-  "download_url": "",
-  "sha256": "E11FD9E9E5A4295E9DDECD479DD430FD6E5DAB293C7FE136A5C9536E37DC6C2C",
-  "size": 3612918,
+  "download_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
+  "sha256": "139D38FE1BCE483F2B21BBE3DF65D5F3B88C7944FCC693630821304A403B038B",
+  "size": 75090,
   "release_notes": [
-    "Canal Stable temporairement revenu sur 1.4.4 pendant la correction RAM et updater.",
-    "1.4.5 et 1.6.0 temporairement suspendues du déploiement automatique."
+    "RAM Corsair link recovery",
+    "Native Engine repair",
+    "Rollback/relaunch on update failure",
+    "Premium Product UI 1.6.0"
   ],
   "next_generation_update_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/latest.json"
 }

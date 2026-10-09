@@ -3,8 +3,8 @@
   "product": "EXDEV RGB",
   "version": "1.6.0",
   "channel": "stable",
-  "status": "paused",
-  "release_name": "Premium Product UI + Updater Hardening",
+  "status": "current",
+  "release_name": "Premium Product UI + RAM Link Recovery Hotfix",
   "published_at": "2026-10-08",
   "mandatory": false,
   "windows": {
@@ -15,10 +15,10 @@
     "provider": "github-raw",
     "repository": "EXODEcola/versions",
     "asset": "EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
-    "available": false,
-    "url": "",
-    "sha256": "2E804F2E7BE1455A0E416C9754BAEA3EA2A6E61FF9D76CEEC578C2B0C2580B57",
-    "size": 69331
+    "available": true,
+    "url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/releases/v1.6.0/EXDEV_RGB_v1.6.0_UPDATE_MIN.zip",
+    "sha256": "139D38FE1BCE483F2B21BBE3DF65D5F3B88C7944FCC693630821304A403B038B",
+    "size": 75090
   },
   "full_package": {
     "asset": "EXDEV_RGB_v1.6.0_STABLE.zip",
@@ -30,7 +30,11 @@
   "changelog": "changelog.md",
   "checksum_file": "sha256.txt",
   "release_notes": [
-    "Version temporairement suspendue du canal Stable.",
-    "Correctif en préparation pour le bootstrap de mise à jour et la réparation PawnIO/RAM."
+    "Hotfix liaison RAM Corsair depuis 1.4.5.",
+    "Réparation et redémarrage contrôlé du EXDEV Native Engine.",
+    "Validation réelle PawnIO/SMBus avant de déclarer la RAM pilotable.",
+    "Fallback Native Engine puis bridge direct pour la disponibilité RAM.",
+    "Rollback et relance automatique de l ancienne application si la mise à jour échoue.",
+    "Premium Product UI 1.6.0 conservée."
   ]
 }
