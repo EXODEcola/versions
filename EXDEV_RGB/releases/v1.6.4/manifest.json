@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.4",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Installer + Dual-DIMM Fix",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.4",
+    "asset": "EXDEV_RGB_v1.6.4_INSTALLER_DUAL_DIMM_FIX.zip",
+    "available": false,
+    "url": "",
+    "sha256": "DC4A3CBCBE4DF31EE25D81382EE50EAF69197D3274277EA01202C6D73B893012",
+    "size": 3572824
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Correction d'un bug installateur qui pouvait laisser le runtime 1.6.1 actif malgré un package plus récent.",
+    "La version de l'installateur est désormais lue dynamiquement depuis Lib/version.txt.",
+    "Une différence entre AppRuntime/version.txt et la version du package force la reconstruction du runtime.",
+    "Le scan Corsair multi-passes de la 1.6.3 est conservé pour retrouver les deux DIMM.",
+    "Ports PIIX4 0 et 1, adresses 0x58–0x5F et 0x18–0x1F, retries lecture seule et pacing 10 ms.",
+    "Le chemin Direct 10 LED + fallback WORD de la 1.6.2 est conservé.",
+    "Propagation /autoupdate -> -AutoStart réparée.",
+    "FAN LOCK inchangé."
+  ]
+}
