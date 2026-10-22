@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.1",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Per-DIMM RGB Zones + Safe SMBus",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.1",
+    "asset": "EXDEV_RGB_v1.6.1_PER_DIMM_ZONES.zip",
+    "available": false,
+    "url": "",
+    "sha256": "FD25527A6CBFEE8BBFF83AEA3A4EAB4F1B8584C1D28E2B1F6B8A83A485B97A18",
+    "size": 3537247
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Contrôle indépendant de chaque barrette Corsair Vengeance RGB DDR5.",
+    "10 LED adressables par barrette avec modes Unie, 3 zones 3/4/3 et Dégradé.",
+    "Prévisualisation fluide sans écriture SMBus continue ; écriture matérielle uniquement au clic sur Appliquer.",
+    "CRC-8 vérifié et attente du contrôleur après les commits pour réduire les risques de blocage SMBus.",
+    "Sélection indépendante GPU, D_LED1 et D_LED2 dans le Studio d’éclairage.",
+    "Effets RAM matériels conservés et ciblables par barrette.",
+    "Contrôle GPU multi-zone laissé désactivé par défaut tant qu’il n’est pas validé sur la RX 9070 XT réelle.",
+    "FAN LOCK inchangé."
+  ]
+}
