@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.8",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Boot-Safe RAM Discovery",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.8",
+    "asset": "EXDEV_RGB_v1.6.8_BOOT_SAFE_RAM_DISCOVERY.zip",
+    "available": false,
+    "url": "",
+    "sha256": "EF90131F5EBB0E769C0FB36187A6DABA532B49876E415E1C0F6CD3FE6E860B7D",
+    "size": 3589608
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Les DIMM physiques détectés par SMBIOS restent visibles même si leur contrôleur RGB SMBus est momentanément indisponible.",
+    "La présence mémoire et l'état RGB sont désormais deux états indépendants.",
+    "Suppression du fallback qui lançait un second bridge lorsque le Native Engine résident était simplement lent ou occupé.",
+    "Le scan Corsair libère le mutex global entre ses passes au lieu de monopoliser le SMBus pendant toute la découverte.",
+    "Timeouts de scan courts et bornés afin de ne pas bloquer le démarrage Windows.",
+    "Ports AMD PIIX4 0 et 1 et routes Corsair 0x18-0x1F / 0x58-0x5F conservés.",
+    "Direct 10 LED, 3 zones 3/4/3, fallback WORD et FAN LOCK conservés."
+  ]
+}
