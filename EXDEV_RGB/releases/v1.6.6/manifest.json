@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.6",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Slot-Aware Dual-DIMM Recovery",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.6",
+    "asset": "EXDEV_RGB_v1.6.6_SLOT_AWARE_DUAL_DIMM_RECOVERY.zip",
+    "available": false,
+    "url": "",
+    "sha256": "0C1E70FEA5B81332065CB60E5845B3C960197517DF41847FA49D9FDAD99036F2",
+    "size": 3585253
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Croisement SMBIOS + routes RGB Corsair pour distinguer les deux DIMM physiques.",
+    "Récupération ciblée A2/B2 sur les routes Corsair DDR5 0x19 et 0x1B avant tout abandon.",
+    "Aucune écriture sur une route tant que signature, VID/PID, protocole et CRC ne sont pas validés.",
+    "Mutex inter-processus corrigé vers Global\\Access_SMBUS.HTP.Method.",
+    "Accès PawnIO via GLOBALROOT avec fallback historique.",
+    "Sleep mode 2 du module SmbusPIIX4 activé comme OpenRGB/rgbctrl.",
+    "Scan normal limité au port DRAM PIIX4 primaire et aux adresses 0x18-0x1F ; alias 0x58-0x5F uniquement en récupération ciblée.",
+    "Le DIMM physique manquant reste visible avec diagnostic au lieu d'être masqué.",
+    "Direct 10 LED, mode 3 zones 3/4/3 et fallback WORD conservés.",
+    "FAN LOCK inchangé."
+  ]
+}
