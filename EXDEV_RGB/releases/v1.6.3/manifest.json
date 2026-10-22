@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.3",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Dual-DIMM Scan Hotfix",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.3",
+    "asset": "EXDEV_RGB_v1.6.3_DUAL_DIMM_SCAN_HOTFIX.zip",
+    "available": false,
+    "url": "",
+    "sha256": "DFEF2690B3BA7E16143DA27665D8850A34FC928F4EF7269517C2EA1CD18D8731",
+    "size": 3571316
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Correction de la détection intermittente d'une seule barrette sur les kits Corsair Vengeance RGB DDR5 à deux DIMM.",
+    "Scan Corsair multi-passes partagé entre l'interface et le chemin d'écriture.",
+    "Trois lectures de signature maximum par route avant abandon.",
+    "Deux lectures Device Info/CRC maximum par route.",
+    "Temporisation de 10 ms entre les adresses, alignée sur OpenRGB.",
+    "Le chemin Direct 10 LED + fallback WORD de la 1.6.2 est conservé.",
+    "FAN LOCK inchangé."
+  ]
+}
