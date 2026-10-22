@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.5",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "SMBus Busy Recovery",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.5",
+    "asset": "EXDEV_RGB_v1.6.5_SMBUS_BUSY_RECOVERY.zip",
+    "available": false,
+    "url": "",
+    "sha256": "BA8961F80B340FB9BE5DFF987BF66D1D8322A1F985053323005B98DF5AEA2CDA",
+    "size": 3556973
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Gestion ciblée de STATUS_DEVICE_BUSY / ERROR_BUSY renvoyé par PawnIO SmbusPIIX4.",
+    "Retries bornés avec backoff uniquement pour le bus AMD réellement occupé.",
+    "Aucune répétition aveugle des erreurs CRC, protocole ou périphérique absent.",
+    "Le scan Corsair passe désormais par le Native Engine résident avant tout fallback.",
+    "Scan RAM, écritures par zones et effets RAM sont sérialisés dans une seule file native.",
+    "Le chemin Direct 10 LED et le fallback WORD OpenRGB restent inchangés.",
+    "Le scanner dual-DIMM multi-passes des versions 1.6.3/1.6.4 est conservé.",
+    "FAN LOCK inchangé."
+  ]
+}
