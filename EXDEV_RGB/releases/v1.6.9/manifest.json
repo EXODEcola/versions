@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.9",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Silent Native Engine",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.9",
+    "asset": "EXDEV_RGB_v1.6.9_SILENT_NATIVE_ENGINE.zip",
+    "available": false,
+    "url": "",
+    "sha256": "7BD1299AB0CF9510BD1C3B24759F5DC4B6DC86442DA2996CA29DB7B5DF79124E",
+    "size": 3571134
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "EXDEV_RGB_BRIDGE.exe est désormais compilé en sous-système Windows GUI/background.",
+    "La tâche planifiée Native Engine ne crée plus de fenêtre CMD au login Windows.",
+    "Le démarrage du moteur natif reste local sur 127.0.0.1:47651 mais entièrement invisible.",
+    "La préparation ne garde plus stdout/stderr de npm/electron-builder dans des pipes bloquants.",
+    "Les logs de compilation sont redirigés vers des fichiers temporaires puis fusionnés dans installer.log.",
+    "Suppression du risque de blocage de la préparation autour de 91 pour cent.",
+    "Le démarrage du Native Engine pendant l'installation est borné et ne dépend plus d'une console visible.",
+    "Tous les correctifs RAM/SMBus de 1.6.8 sont conservés.",
+    "FAN LOCK inchangé."
+  ]
+}
