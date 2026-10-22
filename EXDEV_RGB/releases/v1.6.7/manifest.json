@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.7",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Thread-Safe SMBus + Multi-Port Dual-DIMM Fix",
+  "published_at": "2026-10-22",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.7",
+    "asset": "EXDEV_RGB_v1.6.7_THREAD_SAFE_MULTI_PORT_DIMM_FIX.zip",
+    "available": false,
+    "url": "",
+    "sha256": "8477447DFE96A52A6CD36CE40BED1724DE0D2983A0F2AF5A66E430E687090859",
+    "size": 3587796
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Correction du mutex SMBus Windows: acquisition et ReleaseMutex restent désormais sur le même thread OS.",
+    "WAIT_ABANDONED est géré comme récupération sûre et l'échec de ReleaseMutex n'est plus ignoré.",
+    "Retour du scan AMD PIIX4 multi-port sur ports 0 et 1 comme les implémentations OpenRGB Windows.",
+    "Scan 0x18-0x1F puis aliases 0x58-0x5F avec déduplication canonique/alias par port.",
+    "Une même adresse sur PIIX4 port 0 et port 1 reste considérée comme deux routes DIMM potentielles.",
+    "Récupération SMBIOS ciblée sur les deux ports.",
+    "Le slot SMBIOS réel est prioritaire pour l'étiquette Barrette/Slot.",
+    "Un DIMM physique sans contrôleur RGB validé reste visible dans Éclairage comme diagnostic.",
+    "Direct 10 LED, 3 zones 3/4/3, fallback WORD et FAN LOCK conservés."
+  ]
+}
