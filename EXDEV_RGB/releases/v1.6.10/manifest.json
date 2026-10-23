@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.10",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Boot Sequencer + Silent Native Engine",
+  "published_at": "2026-10-23",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.10",
+    "asset": "EXDEV_RGB_v1.6.10_BOOT_SEQUENCER.zip",
+    "available": false,
+    "url": "",
+    "sha256": "7D255BE9E35106ACDF6DE78D12D7B4A2A5D8D740D1A6C77CAD3FCA9B16A14196",
+    "size": 6006323
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Un seul scan natif partagé au démarrage entre l'interface et la restauration automatique de l'éclairage.",
+    "Attente explicite du Native Engine élevé avant le premier scan Corsair DDR5.",
+    "Rescans RAM automatiques sur le même daemon si SMBIOS annonce deux DIMM mais que le premier scan RGB est incomplet.",
+    "Suppression de la course entre le renderer et applySavedLighting au login Windows.",
+    "L'endpoint /v1/status expose engineReady et uptimeMs pour séquencer proprement le boot.",
+    "Les capacités du moteur sont lues depuis le daemon résident sans lancer un second bridge au démarrage.",
+    "EXDEV_RGB_BRIDGE.exe reste compilé en sous-système Windows GUI : aucune fenêtre CMD.",
+    "Le contrôle dual-DIMM 10 LED / 3 zones / SMBus Block validé en 1.6.8 est conservé.",
+    "FAN LOCK inchangé."
+  ]
+}
