@@ -3,6 +3,12 @@
   "product": "EXDEV RGB",
   "versions": [
     {
+      "version": "1.6.10",
+      "channel": "stable",
+      "status": "prepared",
+      "manifest": "releases/v1.6.10/manifest.json"
+    },
+    {
       "version": "1.6.9",
       "channel": "stable",
       "status": "prepared",
