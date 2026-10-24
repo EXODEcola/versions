@@ -74,3 +74,7 @@ L'étape manquante est le **projet source complet** (Electron/React, installateu
 ## Étape complémentaire — Raccourcis Bureau après une mise à jour officielle
 
 Consultez `EXDEV_RGB/DESKTOP_SHORTCUTS_1611.md`. Le script `05_Maintenir_Raccourcis_Bureau.ps1` vérifie en **aperçu seul** les raccourcis Bureau existants et les répare uniquement après installation vérifiée avec `-Apply`. Il sauvegarde les .lnk originaux et permet la restauration. **Il ne recrée jamais un raccourci volontairement supprimé et n'installe aucun binaire.** Cette procédure doit être intégrée et validée dans le futur installateur officiel; elle n'est pas automatique dans la 1.6.8 actuelle.
+
+## Future 1.6.11 auto-update policy
+
+Automatic updates without per-launch admin dialogs require the one-time administrator-approved installation of a secure EXDEV RGB Update Service. No such service is bundled by this metadata repository; the existing 1.6.8 install **will not** become self-updating from these scripts alone. After the actual native application build is provided, the installer must implement and test the contract in `EXDEV_RGB/AUTO_UPDATE_1_6_11.md` before publishing 1.6.11.
