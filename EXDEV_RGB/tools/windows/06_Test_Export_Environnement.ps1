@@ -17,7 +17,40 @@ try {
  $z=[IO.Compression.ZipFile]::OpenRead($zipfile.FullName)
  try {
    $names=@($z.Entries | ForEach-Object { $_.FullName.Replace('\','/') })
-   if ($names -notcontains 'Source/src/index.ts') { throw 'Le fichier TypeScript est absent' }
+   Write-Host ("Archive entries: " + ($names -join ", "))
+   if (@($names | Where-Object { $_ -match '(^|[\\/])src[\\/]index\\.ts
+   if (@($names | Where-Object { $_ -match '(^|[\\/])package\\.json
+   if (@($names | Where-Object { $_ -match 'node_modules|\.env|app\.asar' }).Count -gt 0) { throw 'Des fichiers exclus ont été collectés' }
+ } finally { $z.Dispose() }
+ & (Join-Path $PSScriptRoot '06_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output -IncludeAppAsar
+ $newZip=Get-ChildItem -LiteralPath $output -Filter '*.zip' | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+ $z=[IO.Compression.ZipFile]::OpenRead($newZip.FullName)
+ try {
+  if (@($z.Entries | Where-Object { $_.FullName.Replace('\','/') -eq 'PackagedElectron/app.asar' }).Count -lt 1) { throw 'L''option ASAR n''a pas fonctionné' }
+ } finally { $z.Dispose() }
+ Write-Host 'Tests source export OK'
+} finally { if (Test-Path -LiteralPath $root) { Remove-Item -LiteralPath $root -Recurse -Force } } }).Count -eq 0) { throw 'Le fichier TypeScript est absent' }
+   if ($names -notcontains 'Source/package.json') { throw 'Le package.json est absent' }
+   if (@($names | Where-Object { $_ -match 'node_modules|\.env|app\.asar' }).Count -gt 0) { throw 'Des fichiers exclus ont été collectés' }
+ } finally { $z.Dispose() }
+ & (Join-Path $PSScriptRoot '06_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output -IncludeAppAsar
+ $newZip=Get-ChildItem -LiteralPath $output -Filter '*.zip' | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+ $z=[IO.Compression.ZipFile]::OpenRead($newZip.FullName)
+ try {
+  if (@($z.Entries | Where-Object { $_.FullName.Replace('\','/') -eq 'PackagedElectron/app.asar' }).Count -lt 1) { throw 'L''option ASAR n''a pas fonctionné' }
+ } finally { $z.Dispose() }
+ Write-Host 'Tests source export OK'
+} finally { if (Test-Path -LiteralPath $root) { Remove-Item -LiteralPath $root -Recurse -Force } } }).Count -eq 0) { throw 'Le package.json est absent' }
+   if (@($names | Where-Object { $_ -match 'node_modules|\.env|app\.asar' }).Count -gt 0) { throw 'Des fichiers exclus ont été collectés' }
+ } finally { $z.Dispose() }
+ & (Join-Path $PSScriptRoot '06_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output -IncludeAppAsar
+ $newZip=Get-ChildItem -LiteralPath $output -Filter '*.zip' | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+ $z=[IO.Compression.ZipFile]::OpenRead($newZip.FullName)
+ try {
+  if (@($z.Entries | Where-Object { $_.FullName.Replace('\','/') -eq 'PackagedElectron/app.asar' }).Count -lt 1) { throw 'L''option ASAR n''a pas fonctionné' }
+ } finally { $z.Dispose() }
+ Write-Host 'Tests source export OK'
+} finally { if (Test-Path -LiteralPath $root) { Remove-Item -LiteralPath $root -Recurse -Force } } }).Count -eq 0) { throw 'Le fichier TypeScript est absent' }
    if ($names -notcontains 'Source/package.json') { throw 'Le package.json est absent' }
    if (@($names | Where-Object { $_ -match 'node_modules|\.env|app\.asar' }).Count -gt 0) { throw 'Des fichiers exclus ont été collectés' }
  } finally { $z.Dispose() }
