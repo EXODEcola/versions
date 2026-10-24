@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.11",
+  "channel": "stable",
+  "status": "prepared",
+  "release_name": "Canonical Windows Startup Fix",
+  "published_at": "2026-10-24",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.11",
+    "asset": "EXDEV_RGB_v1.6.11_CANONICAL_STARTUP_FIX.zip",
+    "available": false,
+    "url": "",
+    "sha256": "E1FF4F31D7DA73D6F514F61AFE9F559D11F4CC7985B1CA5865DA2E0881D48535",
+    "size": 5966175
+  },
+  "changelog": "changelog.md",
+  "checksum_file": "sha256.txt",
+  "release_notes": [
+    "Réparation des anciennes entrées de démarrage Windows pouvant relancer EXDEV 1.6.8 après installation de 1.6.10.",
+    "Chemin de lancement prioritaire issu de l'installation officielle enregistrée dans Windows.",
+    "Migration prudente des anciennes entrées Run et raccourcis de démarrage EXDEV, sans supprimer les profils RGB.",
+    "Les tâches d'applications EXDEV obsolètes sont désactivées; EXDEV RGB Native Engine est préservé.",
+    "Diagnostic de l'exécutable réellement lancé et de l'exécutable canonique ajouté à state:get.",
+    "Native Engine silencieux et moteur Corsair dual-DIMM de 1.6.10 inchangés.",
+    "FAN LOCK inchangé."
+  ]
+}
