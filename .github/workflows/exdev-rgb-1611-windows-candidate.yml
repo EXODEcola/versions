@@ -1,0 +1,106 @@
+name: EXDEV RGB 1.6.11 Windows Build Candidate
+on:
+  push:
+    branches:
+      - build/exdev-rgb-1611-release-candidate
+    paths:
+      - 'EXDEV_RGB/build-input/source_1.6.11.zip'
+      - '.github/workflows/exdev-rgb-1611-windows-candidate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-candidate:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - name: Extract verified source bundle
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $archive = 'EXDEV_RGB/build-input/source_1.6.11.zip'
+          $hash = (Get-FileHash $archive -Algorithm SHA256).Hash
+          if ($hash -ne '11CAC275FE283BDD96FCBB81CB88A10C49A262E3D948C0BACD5DE5030D94BEF4') { throw 'Unexpected EXDEV source hash' }
+          Expand-Archive -LiteralPath $archive -DestinationPath 'candidate' -Force
+          $src = 'candidate/EXDEV RGB/Lib/Source'
+          $pkg = Get-Content "$src/package.json" -Raw | ConvertFrom-Json
+          if ($pkg.version -ne '1.6.11') { throw 'package.json version mismatch' }
+          if ((Get-Content 'candidate/EXDEV RGB/Lib/version.txt' -Raw).Trim() -ne '1.6.11') { throw 'Installer version mismatch' }
+          node --check "$src/main.js"
+          node --check "$src/renderer/app.js"
+      - name: Compile preserved 1.6.10 hardware implementation with 1.6.11 identity
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $src = 'candidate/EXDEV RGB/Lib/Source'
+          $lib = 'candidate/EXDEV RGB/Lib'
+          $env:GOOS = 'windows'
+          $env:GOARCH = 'amd64'
+          go build -trimpath -ldflags="-H=windowsgui" -o "$lib/Native/EXDEV_RGB_BRIDGE.exe" "$src/_developer/bridge.go"
+          if ($LASTEXITCODE -ne 0) { throw 'Go bridge compile failed' }
+          Copy-Item "$lib/Native/EXDEV_RGB_BRIDGE.exe" "$src/native/EXDEV_RGB_BRIDGE.exe" -Force
+          if ((Get-Item "$lib/Native/EXDEV_RGB_BRIDGE.exe").Length -lt 100000) { throw 'Native Engine missing' }
+      - name: Compile packaged Electron application
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $src = (Resolve-Path 'candidate/EXDEV RGB/Lib/Source').Path
+          Push-Location $src
+          try {
+            npm install --no-audit --no-fund
+            if ($LASTEXITCODE -ne 0) { throw 'Electron dependency install failed' }
+            npm run build:portable
+            if ($LASTEXITCODE -ne 0) { throw 'Electron portable build failed' }
+            $runtime = Join-Path $src 'dist/EXDEV RGB.exe'
+            if (-not (Test-Path $runtime)) { throw 'Electron executable missing' }
+            $info = (Get-Item $runtime).VersionInfo
+            Write-Host "Runtime ProductVersion: $($info.ProductVersion) / FileVersion: $($info.FileVersion)"
+            if (-not (($info.ProductVersion -match '^1\.6\.11(\.|$)') -or ($info.FileVersion -match '^1\.6\.11(\.|$)'))) {
+              throw 'Electron PE executable is not actually v1.6.11'
+            }
+            $runtimeDir = Join-Path (Resolve-Path '..').Path 'AppRuntime'
+            New-Item -ItemType Directory -Force $runtimeDir | Out-Null
+            Copy-Item $runtime (Join-Path $runtimeDir 'EXDEV RGB.exe')
+            Set-Content -LiteralPath (Join-Path $runtimeDir 'version.txt') -Value '1.6.11' -Encoding ascii
+          } finally { Pop-Location }
+      - name: Pack single executable installer candidate
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $src = 'candidate/EXDEV RGB/Lib/Source'
+          # Source code and intermediate caches are not required on users' machines.
+          foreach ($name in @('node_modules','dist')) {
+            $path = Join-Path $src $name
+            if (Test-Path -LiteralPath $path) { Remove-Item -LiteralPath $path -Recurse -Force }
+          }
+          $legacy = 'candidate/EXDEV RGB/EXDEV_RGB_INSTALLER.exe'
+          if (Test-Path $legacy) { Remove-Item $legacy -Force }
+          New-Item -ItemType Directory -Path 'candidate/build' -Force | Out-Null
+          Compress-Archive -Path 'candidate/EXDEV RGB' -DestinationPath 'candidate/build/payload.zip' -CompressionLevel Optimal -Force
+          Push-Location 'candidate/build'
+          try {
+            $env:GOOS = 'windows'
+            $env:GOARCH = 'amd64'
+            go build -trimpath -ldflags="-H=windowsgui" -o "$env:GITHUB_WORKSPACE/EXDEV_RGB_Setup_1.6.11_RC.exe" EXDEV_RGB_1611_BOOTSTRAP.go
+            if ($LASTEXITCODE -ne 0) { throw 'Bootstrap compile failed' }
+          } finally { Pop-Location }
+          $exe = Get-Item 'EXDEV_RGB_Setup_1.6.11_RC.exe'
+          if ($exe.Length -lt 50000000) { throw "Embedded runtime unexpectedly small: $($exe.Length) bytes" }
+          Write-Host "Unsigned install candidate compiled: $($exe.Length) bytes"
+          Get-FileHash $exe.FullName -Algorithm SHA256 | Format-List
+      - name: Upload UNTESTED Windows candidate for controlled manual validation only
+        uses: actions/upload-artifact@v4
+        with:
+          name: EXDEV_RGB_1.6.11_WINDOWS_CANDIDATE_UNTESTED
+          path: EXDEV_RGB_Setup_1.6.11_RC.exe
+          if-no-files-found: error
+          retention-days: 14
