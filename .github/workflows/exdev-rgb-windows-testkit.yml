@@ -91,3 +91,5 @@ jobs:
           $props = (Get-ItemProperty -Path $key).PSObject.Properties
           if (-not $props['electron.app.Electron'] -or -not $props['electron.app.EXDEV RGB Companion']) { throw 'Restore failed' }
           foreach ($name in $names) { Remove-ItemProperty -Path $key -Name $name -ErrorAction Stop }
+      - name: Verify desktop shortcut migration is safe and reversible
+        run: ./EXDEV_RGB/tools/windows/05_Test_Raccourcis_Bureau.ps1
