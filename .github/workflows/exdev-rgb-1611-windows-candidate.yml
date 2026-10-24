@@ -29,7 +29,7 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $archive = 'EXDEV_RGB/build-input/source_1.6.11.zip'
           $hash = (Get-FileHash $archive -Algorithm SHA256).Hash
-          if ($hash -ne '11CAC275FE283BDD96FCBB81CB88A10C49A262E3D948C0BACD5DE5030D94BEF4') { throw 'Unexpected EXDEV source hash' }
+          if ($hash -ne 'DE9B0E48F042720223E00AD648E1FF7138078608D1C51BC92349208A60FB93A7') { throw 'Unexpected EXDEV source hash' }
           Expand-Archive -LiteralPath $archive -DestinationPath 'candidate' -Force
           $src = 'candidate/EXDEV RGB/Lib/Source'
           $pkg = Get-Content "$src/package.json" -Raw | ConvertFrom-Json
