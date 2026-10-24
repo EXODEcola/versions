@@ -1,0 +1,42 @@
+name: EXDEV RGB 1.6.11 Windows Source Validation
+on:
+  push:
+    branches:
+      - build/exdev-rgb-1611-release-candidate
+    paths:
+      - '.github/workflows/exdev-rgb-1611-source-validation.yml'
+      - 'EXDEV_RGB/build-input/source_1.6.11.zip'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate 1.6.11 PowerShell scripts and packed source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $zip='EXDEV_RGB/build-input/source_1.6.11.zip'
+          $expected='DE9B0E48F042720223E00AD648E1FF7138078608D1C51BC92349208A60FB93A7'
+          if ((Get-FileHash $zip -Algorithm SHA256).Hash -ne $expected) { throw 'Unexpected source hash' }
+          Expand-Archive -LiteralPath $zip -DestinationPath 'source-check' -Force
+          $files=Get-ChildItem 'source-check/EXDEV RGB/Lib/Installer' -Filter *.ps1 -File -Recurse
+          foreach ($file in $files) {
+            $tokens=$null;$issues=$null
+            [System.Management.Automation.Language.Parser]::ParseFile($file.FullName,[ref]$tokens,[ref]$issues)|Out-Null
+            if ($issues.Count -gt 0) {
+              $issues | ForEach-Object { Write-Host $_.ToString() }
+              throw "PowerShell parse failure: $($file.Name)"
+            }
+            Write-Host "PASS: $($file.Name)"
+          }
+          $src='source-check/EXDEV RGB/Lib/Source'
+          node --check "$src/main.js"
+          node --check "$src/renderer/app.js"
+          if ((Get-Content 'source-check/EXDEV RGB/Lib/version.txt' -Raw).Trim() -ne '1.6.11') {throw 'Bad version.txt'}
+          $sourcePackage=(Get-Content "$src/package.json" -Raw|ConvertFrom-Json)
+          if($sourcePackage.version -ne '1.6.11'){throw 'Bad Electron package version'}
+          Write-Host 'PASS: JS syntax, package version and installer scripts'
