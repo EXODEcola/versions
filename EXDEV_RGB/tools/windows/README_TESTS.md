@@ -70,3 +70,7 @@ Ce script refuse une archive de mauvaise taille/empreinte ou privée de `EXDEV_R
 ## Pour terminer effectivement la release
 
 L'étape manquante est le **projet source complet** (Electron/React, installateur, Native Engine et bridge C++/autres sources). Aucun script de ce kit ne remplace cette compilation. Il faut obtenir ce dépôt/source ou ZIP source, modifier le code, construire le package Windows, exécuter les tests sur le PC concerné puis publier seulement après validation dans GitHub Releases.
+
+## Étape complémentaire — Raccourcis Bureau après une mise à jour officielle
+
+Consultez `EXDEV_RGB/DESKTOP_SHORTCUTS_1611.md`. Le script `05_Maintenir_Raccourcis_Bureau.ps1` vérifie en **aperçu seul** les raccourcis Bureau existants et les répare uniquement après installation vérifiée avec `-Apply`. Il sauvegarde les .lnk originaux et permet la restauration. **Il ne recrée jamais un raccourci volontairement supprimé et n'installe aucun binaire.** Cette procédure doit être intégrée et validée dans le futur installateur officiel; elle n'est pas automatique dans la 1.6.8 actuelle.
