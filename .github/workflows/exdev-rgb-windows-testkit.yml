@@ -1,0 +1,69 @@
+name: EXDEV RGB Windows Diagnostic Kit
+on:
+  pull_request:
+    paths:
+      - 'EXDEV_RGB/tools/windows/**'
+      - '.github/workflows/exdev-rgb-windows-testkit.yml'
+  push:
+    paths:
+      - 'EXDEV_RGB/tools/windows/**'
+      - '.github/workflows/exdev-rgb-windows-testkit.yml'
+  workflow_dispatch:
+jobs:
+  verify-powershell-kit:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse every PowerShell file
+        run: |
+          $files = Get-ChildItem EXDEV_RGB/tools/windows -Filter '*.ps1'
+          foreach ($file in $files) {
+            $tokens = $null
+            $parseErrors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($file.FullName,[ref]$tokens,[ref]$parseErrors) | Out-Null
+            if ($parseErrors.Count -gt 0) {
+              $parseErrors | ForEach-Object { Write-Error $_.Message }
+              throw "Invalid syntax in $($file.Name)"
+            }
+          }
+      - name: Run safe read-only audit on clean runner
+        run: |
+          & ./EXDEV_RGB/tools/windows/01_Audit_EXDEV_RGB.ps1 -OutputRoot "$env:RUNNER_TEMP\exdev-audit"
+          $result = Get-ChildItem -LiteralPath "$env:RUNNER_TEMP\exdev-audit" -Filter audit.json -Recurse | Select-Object -First 1
+          if (-not $result) { throw 'Missing audit.json' }
+          $parsed = Get-Content -LiteralPath $result.FullName -Raw | ConvertFrom-Json
+          if ($parsed.ToolkitVersion -ne '1.6.11-audit.1') { throw 'Unexpected audit schema version' }
+      - name: Verify profile backup on simulated config
+        run: |
+          $sample = Join-Path $env:APPDATA 'EXDEV_RGB'
+          New-Item -ItemType Directory -Force -Path $sample | Out-Null
+          'do-not-lose-profile' | Set-Content (Join-Path $sample 'profile-test.json')
+          & ./EXDEV_RGB/tools/windows/02_Sauvegarde_Profils.ps1 -BackupRoot "$env:RUNNER_TEMP\exdev-backup"
+          $backup = Get-ChildItem "$env:RUNNER_TEMP\exdev-backup" -Filter '*.zip' | Select-Object -First 1
+          if (-not $backup) { throw 'No backup ZIP produced' }
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zip = [IO.Compression.ZipFile]::OpenRead($backup.FullName)
+          try {
+            if (-not ($zip.Entries | Where-Object { $_.FullName -like '*profile-test.json' })) { throw 'Profile missing from backup' }
+          } finally { $zip.Dispose() }
+      - name: Verify strict package checker with synthetic archive
+        run: |
+          $sample = Join-Path $env:RUNNER_TEMP 'fake-installer'
+          New-Item -ItemType Directory -Force -Path $sample | Out-Null
+          'not-a-real-installer' | Set-Content (Join-Path $sample 'EXDEV_RGB_INSTALLER.exe')
+          $package = Join-Path $env:RUNNER_TEMP 'test-archive.zip'
+          Compress-Archive -Path (Join-Path $sample '*') -DestinationPath $package -Force
+          # Only structural testing: synthetic bytes never represent an official build.
+          $sha = (Get-FileHash $package -Algorithm SHA256).Hash
+          $size = (Get-Item $package).Length
+          & ./EXDEV_RGB/tools/windows/03_Verifier_Paquet_1611.ps1 -ZipPath $package -ExpectedSHA256 $sha -ExpectedSize $size
+          $blocked = $false
+          try {
+            & ./EXDEV_RGB/tools/windows/03_Verifier_Paquet_1611.ps1 -ZipPath $package -ExpectedSHA256 ('0' * 64) -ExpectedSize $size
+          } catch { $blocked = $true }
+          if (-not $blocked) { throw 'Wrong checksum was accepted' }
