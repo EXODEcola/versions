@@ -67,3 +67,27 @@ jobs:
             & ./EXDEV_RGB/tools/windows/03_Verifier_Paquet_1611.ps1 -ZipPath $package -ExpectedSHA256 ('0' * 64) -ExpectedSize $size
           } catch { $blocked = $true }
           if (-not $blocked) { throw 'Wrong checksum was accepted' }
+      - name: Exercise reversible legacy autorun repair with dummy entries
+        run: |
+          $key = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+          New-Item -Path $key -Force | Out-Null
+          $names = @('electron.app.Electron','electron.app.EXDEV RGB Companion','fr.exdev.rgbcompanion')
+          foreach ($name in $names) {
+            if ((Get-ItemProperty -Path $key).PSObject.Properties[$name]) { throw "Unexpected preexisting test value: $name" }
+          }
+          New-ItemProperty -Path $key -Name 'electron.app.Electron' -Value '"C:\Users\Test\Downloads\EXDEV_RGB_Native_v0.2\node_modules\electron\dist\electron.exe" --minimized' -PropertyType String | Out-Null
+          New-ItemProperty -Path $key -Name 'electron.app.EXDEV RGB Companion' -Value '"C:\Users\Test\AppData\Local\Programs\EXDEV RGB Companion\EXDEV RGB Companion.exe" --minimized' -PropertyType String | Out-Null
+          New-ItemProperty -Path $key -Name 'fr.exdev.rgbcompanion' -Value '"C:\Program Files (x86)\EXDEV RGB\EXDEV RGB.exe" --login-startup' -PropertyType String | Out-Null
+          $script = './EXDEV_RGB/tools/windows/04_Reparer_Demarrage_EXDEV.ps1'
+          & $script
+          if (-not (Get-ItemProperty -Path $key).PSObject.Properties['electron.app.Electron']) { throw 'Preview unexpectedly removed a value' }
+          & $script -Apply -BackupRoot "$env:RUNNER_TEMP\exdev-test-autostart-backup"
+          $props = (Get-ItemProperty -Path $key).PSObject.Properties
+          if ($props['electron.app.Electron'] -or $props['electron.app.EXDEV RGB Companion']) { throw 'Legacy values still present after Apply' }
+          if (-not $props['fr.exdev.rgbcompanion']) { throw 'Canonical value should never be deleted' }
+          $backup = Get-ChildItem "$env:RUNNER_TEMP\exdev-test-autostart-backup" -Filter *.json | Select-Object -First 1
+          if (-not $backup) { throw 'Backup missing' }
+          & $script -Restore -BackupFile $backup.FullName
+          $props = (Get-ItemProperty -Path $key).PSObject.Properties
+          if (-not $props['electron.app.Electron'] -or -not $props['electron.app.EXDEV RGB Companion']) { throw 'Restore failed' }
+          foreach ($name in $names) { Remove-ItemProperty -Path $key -Name $name -ErrorAction Stop }
