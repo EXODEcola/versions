@@ -95,3 +95,5 @@ jobs:
         run: ./EXDEV_RGB/tools/windows/05_Test_Raccourcis_Bureau.ps1
       - name: Verify optional local EXDEV source exporter
         run: ./EXDEV_RGB/tools/windows/06_Test_Export_Environnement.ps1
+      - name: Test non-destructive recovery of installed native components
+        run: ./EXDEV_RGB/tools/windows/07_Test_Composants.ps1
