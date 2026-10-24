@@ -93,3 +93,5 @@ jobs:
           foreach ($name in $names) { Remove-ItemProperty -Path $key -Name $name -ErrorAction Stop }
       - name: Verify desktop shortcut migration is safe and reversible
         run: ./EXDEV_RGB/tools/windows/05_Test_Raccourcis_Bureau.ps1
+      - name: Verify optional local EXDEV source exporter
+        run: ./EXDEV_RGB/tools/windows/06_Test_Export_Environnement.ps1
