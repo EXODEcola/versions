@@ -10,7 +10,7 @@ try {
  'SECRET=DO_NOT_COPY' | Set-Content -LiteralPath (Join-Path $source '.env')
  'NOT_SOURCE' | Set-Content -LiteralPath (Join-Path $source 'node_modules\junk.ts')
  'FAKE_ASAR' | Set-Content -LiteralPath (Join-Path $source 'dist\win-unpacked\resources\app.asar')
- & (Join-Path $PSScriptRoot '01_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output
+ & (Join-Path $PSScriptRoot '06_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output
  $zipfile=Get-ChildItem -LiteralPath $output -Filter '*.zip' | Select-Object -First 1
  if (-not $zipfile) { throw 'ZIP non créé' }
  Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -21,7 +21,7 @@ try {
    if ($names -notcontains 'Source/package.json') { throw 'Le package.json est absent' }
    if (@($names | Where-Object { $_ -match 'node_modules|\.env|app\.asar' }).Count -gt 0) { throw 'Des fichiers exclus ont été collectés' }
  } finally { $z.Dispose() }
- & (Join-Path $PSScriptRoot '01_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output -IncludeAppAsar
+ & (Join-Path $PSScriptRoot '06_Exporter_Sources_EXDEV.ps1') -SourceDirectory $source -OutputDirectory $output -IncludeAppAsar
  $newZip=Get-ChildItem -LiteralPath $output -Filter '*.zip' | Sort-Object LastWriteTime -Descending | Select-Object -First 1
  $z=[IO.Compression.ZipFile]::OpenRead($newZip.FullName)
  try {
