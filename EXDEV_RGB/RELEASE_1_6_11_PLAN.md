@@ -38,3 +38,12 @@ Turn the current generic dashboard into a hardware lighting studio, keeping the 
 - Test installer **clean install**, **upgrade 1.6.8 -> 1.6.11**, **reboot auto-start**, **profiles/settings preservation**, **uninstall/repair**, **rollback**, **two Corsair DIMMs**, GPU, D_LED1/D_LED2 and FAN LOCK on real hardware.
 - Upload the actual ZIP to a GitHub Release asset, then run `python EXDEV_RGB/tools/release_guard.py verify-remote --root . --version 1.6.11` and require success before changing `EXDEV_RGB/latest.json`, `EXDEV_RGB/channels/stable.json` and `EXDEV_RGB.json`.
 - Never point clients to a `prepared` manifest or claim an untested Windows build is a verified Stable update.
+
+## Automatic updates without repeated UAC prompts
+
+- Starting with official 1.6.11, EXDEV RGB must check Stable at Windows logon, download and install only **newer, actually published and trusted** releases with no install/confirmation button. Network failure must never prevent startup; show a passive notification only for errors needing attention.
+- Initial **administrator-authorized** installation must provision a restricted, separately signed **EXDEV RGB Update Service** for machine-wide files. Do not bypass UAC or elevate the Electron UI on every boot. Later trusted updates must run through that service unattended; an unavailable/untrusted service requires explicit repair, not an infinite UAC prompt.
+- Validate archive SHA-256, publisher's Authenticode signature and certificate chain, fixed release origin, install transaction integrity and source-to-target version monotonicity. Do not accept unsigned files or arbitrary URLs/commands through privileged IPC.
+- Compare against the **actual installed EXE** version, never just an out-of-sync Uninstall Registry version (current case: 1.6.8 binary vs 1.6.10 registry); no downgrade from 1.6.8 when Stable announces 1.6.0.
+- Preserve settings, RGB profiles, hardware exclusions and FAN LOCK, update existing shortcuts only, remove stale launchers after health checks, keep atomic rollback, and restore lighting after relaunch.
+- Acceptance contract and decision-helper tests are in [`AUTO_UPDATE_1_6_11.md`](AUTO_UPDATE_1_6_11.md) and `tools/update_eligibility.py`. **The native service/Electron integration remain unimplemented until the application source is supplied.**
