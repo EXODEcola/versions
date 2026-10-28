@@ -1,5 +1,8 @@
 """Unit tests for rules that must be ported into the Electron/Windows updater."""
 import unittest
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from channel_transition_guard import assess_transition, version_key
 
 
