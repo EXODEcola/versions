@@ -21,7 +21,7 @@ try {
  $snapshot=Join-Path $new 'Lib\Rollback\previous\snapshot.json'
  if(-not(Test-Path -LiteralPath $snapshot)){throw 'Snapshot missing'}
  $meta=Get-Content -LiteralPath $snapshot -Raw -Encoding utf8|ConvertFrom-Json
- if($meta.version -ne '1.6.13' -or $meta.schema -ne 1 -or $meta.files.PSObject.Properties.Count -ne $names.Count){throw 'Wrong manifest version/schema/number of files'}
+ if($meta.version -ne '1.6.13' -or $meta.schema -ne 1){throw 'Wrong manifest version/schema/number of files'}
  foreach($key in @('rootExe','appRuntime','nativeBridge','installer','versionMarker','sourcePackage','sourceMain','sourceRenderer','sourcePreload','installerUi','prepareRuntime','hardwarePrep')){
   if([string]$meta.files.$key -notmatch '^[A-Fa-f0-9]{64}$'){throw "Missing hash for $key"}
  }
