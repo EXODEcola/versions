@@ -3,10 +3,10 @@
   "product": "EXDEV RGB",
   "channel": "beta",
   "enabled": true,
-  "latest": "1.6.13",
-  "version": "1.6.13",
+  "latest": "1.6.14",
+  "version": "1.6.14",
   "minimum_supported": "1.6.13",
-  "manifest": "previews/v1.6.13/manifest.json",
-  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/previews/v1.6.13/manifest.json",
+  "manifest": "previews/v1.6.14/manifest.json",
+  "manifest_url": "https://raw.githubusercontent.com/EXODEcola/versions/main/EXDEV_RGB/previews/v1.6.14/manifest.json",
   "updated_at": "2026-10-28"
 }
