@@ -1,0 +1,40 @@
+name: EXDEV RGB 1.6.14 publish beta artifact
+on:
+  push:
+    branches:
+      - build/exdev-rgb-1614-rollback-candidate
+    paths:
+      - '.github/workflows/exdev-rgb-1614-publish-beta.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch verified Windows build artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download 40691743928 --repo "$GITHUB_REPOSITORY" --name EXDEV_RGB_1.6.14_BETA_ROLLBACK_UNTESTED --dir ./candidate
+          test -f candidate/EXDEV_RGB_Setup_1.6.14_Beta.exe
+          size=$(stat -c '%s' candidate/EXDEV_RGB_Setup_1.6.14_Beta.exe)
+          test "$size" -gt 50000000
+          echo "BETA_EXE_BYTES=$size" >> "$GITHUB_STEP_SUMMARY"
+          sha256sum candidate/EXDEV_RGB_Setup_1.6.14_Beta.exe | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish GitHub prerelease for beta channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='v1.6.14-beta'
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Prerelease already exists: refusing overwrite'
+            exit 1
+          fi
+          gh release create "$tag" ./candidate/EXDEV_RGB_Setup_1.6.14_Beta.exe --repo "$GITHUB_REPOSITORY" --target "26f0dd98cc32b705fefa50b2c9f7d76a57e4bb66" --title 'EXDEV RGB 1.6.14 Beta - Safe Rollback Preview' --notes 'Unsigned prerelease. Verified snapshot and opt-in previous-version restore (requires manual UAC). Preserve profiles and FAN LOCK. Test candidate only. Stable remains unchanged.' --prerelease
+          gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json url,assets,isPrerelease
