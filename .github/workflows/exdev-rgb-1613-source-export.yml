@@ -1,0 +1,21 @@
+name: EXDEV RGB source inspection artifact
+on:
+  push:
+    branches:
+      - build/exdev-rgb-1613-updater-integrated
+    paths:
+      - '.github/workflows/exdev-rgb-1613-source-export.yml'
+permissions:
+  contents: read
+jobs:
+  source-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export existing 1.6.13 source ZIP for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: EXDEV_RGB_1613_SOURCE_INSPECTION
+          path: EXDEV_RGB/build-input/source_1.6.13.zip
+          if-no-files-found: error
+          retention-days: 1
