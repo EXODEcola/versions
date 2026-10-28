@@ -81,7 +81,7 @@ jobs:
             if(-not(Test-Path $runtime)){throw 'Runtime missing'}
             $info=(Get-Item $runtime).VersionInfo
             Write-Host "Runtime ProductVersion: $($info.ProductVersion) / FileVersion: $($info.FileVersion)"
-            if($info.ProductVersion -notmatch '^1\.6\.13(\.|$)' -and $info.FileVersion -notmatch '^1\.6\.13(\.|$)'){throw 'PE version mismatch'}
+            if($info.ProductVersion -notmatch '^1\.6\.14(\.|$)' -and $info.FileVersion -notmatch '^1\.6\.14(\.|$)'){throw 'PE version mismatch'}
             $out=Join-Path (Resolve-Path '..').Path 'AppRuntime'
             New-Item -ItemType Directory -Path $out -Force|Out-Null
             Copy-Item $runtime (Join-Path $out 'EXDEV RGB.exe') -Force
