@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.16",
+  "channel": "beta",
+  "status": "preview",
+  "release_name": "Deux câbles Asiahorse partagés sur D_LED2 (7 + 3 zones)",
+  "published_at": "2026-10-28",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.16-beta",
+    "asset": "EXDEV_RGB_Setup_1.6.16_Beta.exe",
+    "available": true,
+    "url": "https://github.com/EXODEcola/versions/releases/download/v1.6.16-beta/EXDEV_RGB_Setup_1.6.16_Beta.exe",
+    "sha256": "5452C508BA99DF7E13F6CC2A787FE5A4296F45FB0D9E2C52C1DA2A1E30B65664",
+    "size": 98014720
+  },
+  "release_notes": [
+    "Mode expérimental : deux câbles virtuels sur une seule sortie D_LED2 (carte mère 7 zones, CPU 3 zones estimées).",
+    "Un seul signal ARGB physique partagé, pas de contrôle indépendant des deux câbles.",
+    "En 3 parties, répète Bleu / Blanc / Rouge sur 7 zones pour rendre les trois couleurs visibles sur le CPU à 3 zones.",
+    "Deux aperçus correspondant aux 7 et 3 premières zones du même signal; compte de zones configurable.",
+    "Conserve le fonctionnement habituel de D_LED1 et le réglage classique de D_LED2 si l'option partagée est désactivée.",
+    "Le message d'application indique commande envoyée et non effet matériel garanti.",
+    "Profils enregistrés, Native Engine, sauvegarde précédente et FAN LOCK conservés.",
+    "Bêta non signée : tests logiciels et compilation Windows réussis; rendu physique sur les deux câbles à confirmer."
+  ]
+}
