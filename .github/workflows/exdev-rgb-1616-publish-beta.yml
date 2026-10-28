@@ -1,0 +1,40 @@
+name: EXDEV RGB 1.6.16 publish beta artifact
+on:
+  push:
+    branches:
+      - build/exdev-rgb-1616-shared-dled2-cables
+    paths:
+      - '.github/workflows/exdev-rgb-1616-publish-beta.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch verified Windows build artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download 40706106697 --repo "$GITHUB_REPOSITORY" --name EXDEV_RGB_1.6.16_BETA_SHARED_DLED2_UNTESTED --dir ./candidate
+          test -f candidate/EXDEV_RGB_Setup_1.6.16_Beta.exe
+          size=$(stat -c '%s' candidate/EXDEV_RGB_Setup_1.6.16_Beta.exe)
+          test "$size" -gt 50000000
+          echo "BETA_EXE_BYTES=$size" >> "$GITHUB_STEP_SUMMARY"
+          sha256sum candidate/EXDEV_RGB_Setup_1.6.16_Beta.exe | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish GitHub prerelease for beta channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='v1.6.16-beta'
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Prerelease already exists: refusing overwrite'
+            exit 1
+          fi
+          gh release create "$tag" ./candidate/EXDEV_RGB_Setup_1.6.16_Beta.exe --repo "$GITHUB_REPOSITORY" --target "8be218728abd8b4fb72531fe16372739a2bd02ab" --title 'EXDEV RGB 1.6.16 Beta - Shared D_LED2 Cables (7+3 virtual)' --notes 'Unsigned prerelease. Option 1: two virtual Asiahorse cables on same D_LED2, 7-zone motherboard and estimated 3-zone CPU. Single physical ARGB signal with repeated RGB triplet, not independent control. Preserve RGB profiles, Native Engine and FAN LOCK. Unsigned test beta; Stable unchanged.' --prerelease
+          gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json url,assets,isPrerelease
