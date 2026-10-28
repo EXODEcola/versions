@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.14",
+  "channel": "beta",
+  "status": "preview",
+  "release_name": "Sauvegarde et retour arrière sécurisé",
+  "published_at": "2026-10-28",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.14-beta",
+    "asset": "EXDEV_RGB_Setup_1.6.14_Beta.exe",
+    "available": true,
+    "url": "https://github.com/EXODEcola/versions/releases/download/v1.6.14-beta/EXDEV_RGB_Setup_1.6.14_Beta.exe",
+    "sha256": "E1A76DBA236A0FC0000F0C84138FDC56470180DA88F1AFD72232EB51E71B1150",
+    "size": 98009600
+  },
+  "release_notes": [
+    "Installation depuis le centre de mise à jour Bêta du client EXDEV RGB 1.6.13.",
+    "Sauvegarde contrôlée de 12 composants de l'ancienne version avant remplacement, avec SHA-256.",
+    "Commande Retour arrière proposée uniquement lorsqu'une sauvegarde complète et compatible existe.",
+    "Restauration de l'application, du Native Engine et des scripts essentiels sous confirmation explicite et élévation Windows.",
+    "Les profils et préférences AppData ne sont jamais supprimés; FAN LOCK préservé.",
+    "Bêta non signée: les tests de compilation et de sauvegarde sur Windows sont réussis, mais le rollback matériel reste à tester."
+  ]
+}
