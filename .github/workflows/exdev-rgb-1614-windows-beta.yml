@@ -29,7 +29,7 @@ jobs:
         run: |
           $ErrorActionPreference='Stop'
           $archive='EXDEV_RGB/build-input/source_1.6.14.zip'
-          if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne 'D70C99C474E458722235CE3D6701446F31ABF9E69A99671E8ACCB889F22A68C2') {throw 'Source hash mismatch'}
+          if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne 'F6E5DE99802450985BFDFD1D6F564664BFD15DB749A44D8EDA2A302B40626613') {throw 'Source hash mismatch'}
           Expand-Archive -LiteralPath $archive -DestinationPath 'candidate' -Force
           $src='candidate/EXDEV RGB/Lib/Source'
           $pkg=Get-Content "$src/package.json" -Raw|ConvertFrom-Json
