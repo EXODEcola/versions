@@ -1,0 +1,26 @@
+name: EXDEV RGB 1.6.14 rollback integration test
+on:
+  push:
+    branches:
+      - build/exdev-rgb-1614-rollback-candidate
+    paths:
+      - 'EXDEV_RGB/build-input/source_1.6.14.zip'
+      - 'EXDEV_RGB/build-input/test_snapshot_windows.ps1'
+      - '.github/workflows/exdev-rgb-1614-rollback-integration.yml'
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source archive and expand
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $archive='EXDEV_RGB/build-input/source_1.6.14.zip'
+          if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne 'F6E5DE99802450985BFDFD1D6F564664BFD15DB749A44D8EDA2A302B40626613') {throw 'Source SHA256 mismatch'}
+          Expand-Archive -LiteralPath $archive -DestinationPath candidate -Force
+      - name: Verify pre-upgrade rollback snapshot with synthetic Windows files
+        shell: pwsh
+        run: ./EXDEV_RGB/build-input/test_snapshot_windows.ps1
