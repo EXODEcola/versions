@@ -6,6 +6,7 @@ on:
     paths:
       - 'EXDEV_RGB/build-input/source_1.6.16.zip'
       - '.github/workflows/exdev-rgb-1616-windows-beta.yml'
+      - 'EXDEV_RGB/build-input/test_engine_finalization.js'
   workflow_dispatch:
 
 permissions:
