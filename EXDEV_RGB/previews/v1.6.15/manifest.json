@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.15",
+  "channel": "beta",
+  "status": "preview",
+  "release_name": "Native Engine : correction du démarrage après mise à jour",
+  "published_at": "2026-10-28",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.15-beta",
+    "asset": "EXDEV_RGB_Setup_1.6.15_Beta.exe",
+    "available": true,
+    "url": "https://github.com/EXODEcola/versions/releases/download/v1.6.15-beta/EXDEV_RGB_Setup_1.6.15_Beta.exe",
+    "sha256": "9712150ECB60E00E552A3D7A808D74563F309B44AB6BC387E08229B97D1D0AA1",
+    "size": 98009600
+  },
+  "release_notes": [
+    "Corrige l'arrêt accidentel du Native Engine pendant la finalisation de l'installation Windows.",
+    "Conserve le Native Bridge résident après préparation du matériel, afin d'éviter ECONNREFUSED 127.0.0.1:47651.",
+    "Vérifie après installation l'accès au moteur et tente de démarrer uniquement la tâche EXDEV déjà enregistrée si nécessaire.",
+    "Avertissement visible et journalisé si le moteur reste indisponible.",
+    "Profils RGB, restauration précédente, contrôles RAM/ARGB et FAN LOCK préservés.",
+    "Version Bêta non signée : compilation et tests Windows réussis, validation sur matériel réel à effectuer."
+  ]
+}
