@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.13",
+  "channel": "beta",
+  "status": "preview",
+  "release_name": "Mises à jour intégrées Stable et Bêta",
+  "published_at": "2026-10-28",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.13-beta",
+    "asset": "EXDEV_RGB_Setup_1.6.13_Beta.exe",
+    "available": true,
+    "url": "https://github.com/EXODEcola/versions/releases/download/v1.6.13-beta/EXDEV_RGB_Setup_1.6.13_Beta.exe",
+    "sha256": "94BA644DF676EAAF8367C693426FFAA5A96069329ABA9C57D0B3D0EE37BA7C53",
+    "size": 98003456
+  },
+  "release_notes": [
+    "Canaux Stable et Bêta sélectionnables et conservés entre les lancements.",
+    "Téléchargement et installation de l'EXE directement dans EXDEV RGB, sans ZIP manuel pour les versions futures.",
+    "Contrôle SHA-256 et taille du fichier avant toute exécution.",
+    "Une version Bêta non signée exige une confirmation explicite.",
+    "Profils RGB préservés; FAN LOCK inchangé.",
+    "Une dernière installation de transition est nécessaire depuis les versions 1.6.11/1.6.12."
+  ]
+}
