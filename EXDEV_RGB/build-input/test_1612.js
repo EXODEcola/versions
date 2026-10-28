@@ -1,0 +1,32 @@
+'use strict';
+const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
+if(!process.argv[2])throw Error('Source directory required');
+const root=path.resolve(process.argv[2]);
+const src=fs.readFileSync(path.join(root,'main.js'),'utf8');
+function section(name,nextName) {
+ const a=src.indexOf('function '+name+'(');assert(a>=0,name+' missing');
+ const b=src.indexOf(nextName,a);assert(b>a,nextName+' missing');
+ return src.slice(a,b);
+}
+const defs=section('cleanCableLayouts','function sanitizeStatePatch')+'\n'+section('hexToRgbLocal','function rgbToHsvLocal');
+const ctx=vm.createContext({HEX_COLOR:/^#[0-9A-F]{6}$/i,cleanText:(v,max)=>String(v).slice(0,max)});
+vm.runInContext(defs,ctx);
+const layout=vm.runInContext('cleanCableLayouts({"argb:gigabyte:B650:D_LED1":{mode:"triple",colors:["#FF0000","#00FF00","#0000FF"],ledCount:60,enabled:true},bad:{}})',ctx);
+const keys=Object.keys(layout);assert.equal(keys.length,1);assert.equal(layout[keys[0]].ledCount,60);assert.equal(layout[keys[0]].enabled,true);
+const colors=vm.runInContext('rgbLedColors({mode:"triple",colors:["#FF0000","#00FF00","#0000FF"]},60)',ctx);
+assert.equal(colors.length,60);
+assert.equal(colors[0],'#FF0000');assert.equal(colors[19],'#FF0000');assert.equal(colors[20],'#00FF00');assert.equal(colors[40],'#0000FF');
+const grad=vm.runInContext('rgbLedColors({mode:"gradient",colors:["#FF0000","#00FF00","#0000FF"]},60)',ctx);
+assert.equal(grad[0],'#FF0000');assert.equal(grad[59],'#0000FF');
+const invalid=vm.runInContext('cleanCableLayouts({"argb:gigabyte:D_LED2":{mode:"triple",colors:["red","#GGGGGG","#0000FF"],ledCount:999,enabled:"yes"}})',ctx);
+assert.equal(invalid['argb:gigabyte:D_LED2'].ledCount,120);
+assert.equal(invalid['argb:gigabyte:D_LED2'].enabled,false);
+assert(src.includes('setTimeout(() => void applySavedLighting(startupRestoreEpoch), 950)'));
+assert(src.includes('normal.every(d=>d.role==='));
+const backend=fs.readFileSync(path.join(root,'backend','drivers','registry.js'),'utf8');
+assert(backend.includes("'/v1/cable-pixels'"));
+const native=fs.readFileSync(path.join(root,'_developer','bridge.go'),'utf8');
+assert(native.includes('pixelFrameFromStrings'));assert(native.includes('/v1/cable-pixels'));
+const preload=fs.readFileSync(path.join(root,'preload.js'),'utf8');
+assert(preload.includes('applyCableZones'));
+console.log('PASS: ARGB regions, LED count, gradients, input validation, RAM cold-boot retry, IPC and native endpoint.');
