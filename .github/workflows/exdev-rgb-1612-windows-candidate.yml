@@ -5,7 +5,8 @@ on:
       - build/exdev-rgb-1612-ram-argb-candidate
     paths:
       - 'EXDEV_RGB/build-input/source_1.6.12.zip'
-      - '.github/workflows/exdev-rgb-1612-windows-candidate.yml'\n      - 'EXDEV_RGB/build-input/test_1612.js'
+      - '.github/workflows/exdev-rgb-1612-windows-candidate.yml'
+      - 'EXDEV_RGB/build-input/test_1612.js'
   workflow_dispatch:
 
 permissions:
@@ -69,7 +70,7 @@ jobs:
             if (-not (Test-Path $runtime)) { throw 'Electron executable missing' }
             $info = (Get-Item $runtime).VersionInfo
             Write-Host "Runtime ProductVersion: $($info.ProductVersion) / FileVersion: $($info.FileVersion)"
-            if (-not (($info.ProductVersion -match '^1\.6\.11(\.|$)') -or ($info.FileVersion -match '^1\.6\.11(\.|$)'))) {
+            if (-not (($info.ProductVersion -match '^1\.6\.12(\.|$)') -or ($info.FileVersion -match '^1\.6\.12(\.|$)'))) {
               throw 'Electron PE executable is not actually v1.6.12'
             }
             $runtimeDir = Join-Path (Resolve-Path '..').Path 'AppRuntime'
@@ -105,7 +106,7 @@ jobs:
       - name: Upload UNTESTED Windows candidate for controlled manual validation only
         uses: actions/upload-artifact@v4
         with:
-          name: EXDEV_RGB_1.6.12_WINDOWS_CANDIDATE_UNTESTED
+          name: EXDEV_RGB_1.6.12_RAM_ARGB_CANDIDATE_UNTESTED
           path: EXDEV_RGB_Setup_1.6.12_RC.exe
           if-no-files-found: error
           retention-days: 14
