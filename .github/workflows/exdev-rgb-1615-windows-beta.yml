@@ -41,7 +41,7 @@ jobs:
           node 'candidate/tests/updater.test.js'
           if($LASTEXITCODE -ne 0){throw 'Updater tests failed'}
           node 'candidate/tests/test_rollback.js' "$src"
-          node 'candidate/tests/test_engine_finalization.js' "$src"
+          node 'EXDEV_RGB/build-input/test_engine_finalization.js' "$src"
           if($LASTEXITCODE -ne 0){throw 'Native Engine finalization regression failed'}
           if($LASTEXITCODE -ne 0){throw 'Rollback preflight tests failed'}
       - name: Verify Windows PowerShell installer and rollback scripts
