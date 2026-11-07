@@ -1,0 +1,20 @@
+name: EXDEV RGB 1.6.16 source snapshot for UI upgrade
+on:
+  push:
+    branches: [build/exdev-rgb-1616-shared-dled2-cables]
+    paths:
+      - .github/workflows/exdev-rgb-1616-source-snapshot.yml
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload source for UI review
+        uses: actions/upload-artifact@v4
+        with:
+          name: EXDEV_RGB_SOURCE_1616_UI
+          path: EXDEV_RGB/build-input/source_1.6.16.zip
+          if-no-files-found: error
+          retention-days: 3
