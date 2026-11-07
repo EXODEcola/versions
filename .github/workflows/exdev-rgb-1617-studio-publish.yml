@@ -1,0 +1,46 @@
+name: EXDEV RGB 1.6.17 publish Studio UI Beta
+on:
+  push:
+    branches: [build/exdev-rgb-1617-studio-ui]
+    paths:
+      - '.github/workflows/exdev-rgb-1617-studio-publish.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish-beta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch verified Windows build artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download 42353640684 --repo "$GITHUB_REPOSITORY" --name EXDEV_RGB_1.6.17_STUDIO_UI_BETA_UNTESTED --dir ./release
+          test -f release/EXDEV_RGB_Setup_1.6.17_Beta.exe
+          bytes=$(stat -c '%s' release/EXDEV_RGB_Setup_1.6.17_Beta.exe)
+          test "$bytes" -gt 50000000
+          echo "EXDEV RGB 1.6.17 Setup size: $bytes" >> "$GITHUB_STEP_SUMMARY"
+          sha256sum release/EXDEV_RGB_Setup_1.6.17_Beta.exe | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish an opt-in beta only; never overwrite an existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='v1.6.17-beta'
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Existing beta tag: refusing overwrite'
+            exit 1
+          fi
+          gh release create "$tag" ./release/EXDEV_RGB_Setup_1.6.17_Beta.exe \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title 'EXDEV RGB 1.6.17 Beta — Studio UI & Monitoring' \
+            --notes 'Unsigned test beta. Refreshed deep-navy EXDEV visual system, modular live monitoring with real CPU/RAM/process data, customisable widgets, updated lighting layouts and profile dock. Preserves Corsair RAM, Asiahorse D_LED2 shared cable 7+3, Native Engine and FAN LOCK. No fan/pump control added. Preserve backups. Stable remains unchanged.' \
+            --prerelease
+          gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json url,assets,isPrerelease
