@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "product": "EXDEV RGB",
+  "version": "1.6.17",
+  "channel": "beta",
+  "status": "preview",
+  "release_name": "EXDEV RGB Studio : refonte visuelle et monitoring modulaire",
+  "published_at": "2026-11-07",
+  "mandatory": false,
+  "windows": {
+    "minimum": "10",
+    "architecture": "x64"
+  },
+  "download": {
+    "provider": "github-release",
+    "repository": "EXODEcola/versions",
+    "tag": "v1.6.17-beta",
+    "asset": "EXDEV_RGB_Setup_1.6.17_Beta.exe",
+    "available": true,
+    "url": "https://github.com/EXODEcola/versions/releases/download/v1.6.17-beta/EXDEV_RGB_Setup_1.6.17_Beta.exe",
+    "sha256": "7FC03196CE1DF48B8A653C83467BBFC1671055E293B1C12C4577882CF934CA5F",
+    "size": 98029568
+  },
+  "release_notes": [
+    "Refonte visuelle inspirée d'une console de monitoring : bleu nuit, accents violets, cyan et rose, cartes et navigation plus lisibles.",
+    "Nouvel écran Surveillance avec jauges CPU/RAM et état réel des périphériques RGB.",
+    "Deux historiques de mesures : utilisation CPU et RAM, mémoire du processus EXDEV RGB.",
+    "Bouton Personnaliser les widgets, avec préférences enregistrées dans settings.json.",
+    "Nouvelle barre d'accès rapide au profil actif, aux profils et au studio d'éclairage.",
+    "Studio d'éclairage élargi : champs et cartes Corsair RAM/Asiahorse D_LED plus lisibles.",
+    "Aucune valeur de température, tension ou RPM inventée ; monitoring strictement en lecture seule.",
+    "Native Engine, profils, mode partagé D_LED2 7+3, mises à jour intégrées, rollback et FAN LOCK conservés.",
+    "Bêta Windows non signée : tests logiciels et compilation validés ; essais sur matériel réel nécessaires."
+  ]
+}
